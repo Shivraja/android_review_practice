@@ -1,19 +1,44 @@
 package com.example.shiv.list_view_practice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 public class MoviesActivity extends AppCompatActivity {
+
+    TextView movieName;
+    ImageView headImage;
+    TextView language;
+    RatingBar rating;
+    TextView year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
-        RatingBar ratingBar = (RatingBar)findViewById(R.id.rate);
+        movieName = (TextView)findViewById(R.id.movie_movie_name);
+        headImage = (ImageView)findViewById(R.id.movie_head_Image);
+        language = (TextView)findViewById(R.id.movie_movie_language);
+        rating = (RatingBar)findViewById(R.id.movie_rate);
+     //   year = (TextView)findViewById(R.id.movie_year);
 
+
+        int movieId ;
+        Intent currentIntent = this.getIntent();
+        movieId = currentIntent.getIntExtra("movieId",1);
+
+        Movies movies = MoviesData.movieList[movieId];
+        movieName.setText(movies.movieName);
+        headImage.setImageResource(movies.headImageId);
+        language.setText(movies.language);
+        rating.setRating(((float) movies.rating));
+        setTitle(movies.movieName);
+      //  year.setText(movies.year);
     }
 
     @Override
@@ -37,4 +62,6 @@ public class MoviesActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

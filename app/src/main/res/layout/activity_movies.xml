@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#030806"
-    android:padding="10dp"
-    tools:context="com.example.shiv.list_view_practice.MoviesActivity"
     android:baselineAligned="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="com.example.shiv.list_view_practice.MoviesActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,17 +19,18 @@
             android:orientation="vertical">
 
             <ImageView
-                android:alpha=".5"
+                android:id="@+id/movie_head_Image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/a2" />
 
             <TextView
+                android:id="@+id/movie_movie_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sutrula(2015)"
@@ -38,6 +39,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/movie_movie_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Language : Tamil"
@@ -45,16 +47,16 @@
                 android:textSize="20dp" />
 
             <RatingBar
-                android:numStars="5"
-                android:rating="2.0"
-                android:stepSize="1.0"
-                android:isIndicator="false"
-                android:alpha="0.6"
-                android:layout_margin="10dp"
-                android:background="#aaaaaa"
+                android:id="@+id/movie_rate"
                 android:layout_width="316dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/rate" />
+                android:layout_margin="10dp"
+                android:alpha="0.6"
+                android:background="#aaaaaa"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="2.0"
+                android:stepSize="1.0" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -66,6 +68,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/movie_casts"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="horizontal"
@@ -163,43 +166,52 @@
                         android:textColor="#ffffff" />
                 </RelativeLayout>
             </LinearLayout>
-        <LinearLayout
-            android:id="@+id/links"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Links :-"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-            </LinearLayout>
-            <TextView
-                android:autoLink="web"
-                android:paddingLeft="30dp"
-                android:text="https://www.youtube.com/abcdefgh"
-                android:textSize="15dp"
-                android:textColor="#ffffff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:autoLink="web"
-                android:paddingLeft="30dp"
-                android:text="https://www.youtube.com/lksjad34jk"
-                android:textSize="15dp"
-                android:textColor="#ffffff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/links"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/movie_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Links :-"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:paddingLeft="30dp"
+                    android:text="https://www.youtube.com/abcdefgh"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:paddingLeft="30dp"
+                    android:text="https://www.youtube.com/lksjad34jk"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/movie_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ListView
+                    android:id="@+id/movie_review_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </ListView>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -208,10 +220,11 @@
                     android:textColor="#ffffff"
                     android:textSize="20dp"
                     android:textStyle="bold" />
+
                 <TextView
-                    android:paddingLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
                     android:text="Thai herbs have increasingly gained public attention.Recently, there are a number of Thai herb websites. Each website
 has similar information but quite different details. For example,some webpages do not provide information indicating which part
 of Thai herb can treat the specified symptom. In order to collect more complete Thai herb information, we have developed

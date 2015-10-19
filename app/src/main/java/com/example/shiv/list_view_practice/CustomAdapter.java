@@ -8,20 +8,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by Shiv on 28-Sep-15.
- */
 public class CustomAdapter extends BaseAdapter {
-    String text1[],text2[];
-    int image[];
-    Context ctx;
+    Context context;
     LayoutInflater layoutInflater;
-    public CustomAdapter(String name1[],String name2[],int images[],Context context) {
-        text1 = name1;
-        text2 = name2;
-        ctx = context;
-        image = images;
-        layoutInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    String[] movieNames;
+    int[] iconImage, headImage;
+    double[] rating;
+    int[] year;
+    String[] language;
+
+    ImageView backgroundImageView, iconImageView;
+    TextView movieNameView,languageView, yearView;
+    public CustomAdapter(String[] movieNames,int[] iconImage, int[] headImage, double[] rating, int[] year, String[] language, Context context){
+        this.movieNames = movieNames;
+        this.iconImage = iconImage;
+        this.headImage = headImage;
+        this.rating = rating;
+        this.year = year;
+        this.language = language;
+        this.context = context;
+        layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -31,12 +37,12 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return text1.length;
+        return movieNames.length-1;
     }
 
     @Override
     public Object getItem(int i) {
-        return text1[i];
+        return movieNames[i+1];
     }
 
     @Override
@@ -48,14 +54,18 @@ public class CustomAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view==null)
             view = layoutInflater.inflate(R.layout.list_view, viewGroup, false);
-        ImageView back =(ImageView)view.findViewById(R.id.background);
-        ImageView icon =(ImageView)view.findViewById(R.id.icon);
-        back.setImageResource(image[i]);
-        icon.setImageResource(image[i]);
-        TextView textView1= (TextView)view.findViewById(R.id.texts1);
-        TextView textView2= (TextView)view.findViewById(R.id.texts2);
-        textView1.setText(text1[i]+"(Tamil)");
-        textView2.setText(text2[i]);
+
+        backgroundImageView = (ImageView)view.findViewById(R.id.background);
+        iconImageView =(ImageView)view.findViewById(R.id.icon);
+        movieNameView = (TextView)view.findViewById(R.id.movie_name);
+        languageView = (TextView)view.findViewById(R.id.movie_language);
+        yearView = (TextView)view.findViewById(R.id.movie_year);
+        i++;
+        backgroundImageView.setImageResource(headImage[i]);
+        iconImageView.setImageResource(iconImage[i]);
+        movieNameView.setText(movieNames[i]);
+        languageView.setText(language[i]);
+        yearView.setText(year[i]+"");
         return view;
     }
 }

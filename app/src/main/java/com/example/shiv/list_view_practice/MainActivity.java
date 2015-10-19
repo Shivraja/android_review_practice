@@ -2,10 +2,10 @@ package com.example.shiv.list_view_practice;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,39 +13,43 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    String names[]={"Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja", "Kavi", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja"};
-    String names2[]={"Ramu","rajaesd","radff","Pradeep", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja", "Kavi", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja"};
-   // String name[]={"Pradeep", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja", "Kavi", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja"};
-  //  String name2[]={"Raja","Ramu","rajaesd","radff","Pradeep", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja", "Kavi", "Praveena", "Raja", "Kavi","Pradeep", "Praveena", "Raja"};
-    int image1[] = {R.drawable.a1,R.drawable.a2,R.drawable.a3,R.drawable.a4,R.drawable.a5,R.drawable.a6,R.drawable.a7,R.drawable.a8,R.drawable.a9,R.drawable.a10,R.drawable.a11,R.drawable.a12,R.drawable.a13,R.drawable.a14,R.drawable.a15,R.drawable.a16,R.drawable.a17};
-    int image2[] = {R.drawable.a2,R.drawable.a3,R.drawable.a4,R.drawable.a5,R.drawable.a6,R.drawable.a7,R.drawable.a8,R.drawable.a9,R.drawable.a10,R.drawable.a11,R.drawable.a12,R.drawable.a13,R.drawable.a14,R.drawable.a15,R.drawable.a16,R.drawable.a17,R.drawable.a18};
+    MoviesData moviesData = new MoviesData();
+    int iconImage[], headImage[] ;
+    String[] moviesName;
+    double[] rating;
+    int[] year;
+    String[] language;
+    static int headId;
     NotificationManager notificationManager;
     NotificationCompat.Builder notificationCompat;
+    ImageView headView, cast1, cast2;
+    TextView headName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         notificationCompat = new NotificationCompat.Builder(this);
         notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        headView = (ImageView)findViewById(R.id.headimage);
+        headName = (TextView)findViewById(R.id.head_name);
+        //cast1 = (ImageView)findViewById(R.id.cast1);
+        //cast2 = (ImageView)findViewById(R.id.cast2);
+        iconImage = moviesData.getIconImages();
+        headImage = moviesData.getHeadImages();
+        moviesName = moviesData.getMovieNames();
+        rating = moviesData.getMovieRatings();
+        year = moviesData.getMovieYear();
+        language = moviesData.getMovieLanguage();
+
         ListView listView = (ListView) findViewById(R.id.list);
-       // final ListView headView = (ListView) findViewById(R.id.headView);
-        //CustomHeadAdapter headAdapter = new CustomHeadAdapter(name,name2,image1,this);
-        CustomAdapter arrayAdapter = new CustomAdapter(names,names2,image2,this);
-        listView.setAdapter(arrayAdapter);
-        //headView.setAdapter(headAdapter);
-        final ImageView head = (ImageView)findViewById(R.id.headimage);
-
-
+        CustomAdapter movieListAdapter = new CustomAdapter(moviesName,iconImage,headImage,rating,year,language, this);
+        listView.setAdapter(movieListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -54,24 +58,41 @@ public class MainActivity extends AppCompatActivity {
                 notificationCompat.setContentText("The User Pressed " + i);
                 notificationManager.notify(1, notificationCompat.build());
                 Toast.makeText(getBaseContext(), i + " ", Toast.LENGTH_LONG).show();
+                startMoviesActivity(i + 1);
             }
         });
-
-         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-                Log.w("STATE CHANGED",i+"");
-                Toast.makeText(getBaseContext(),"STATE CHANGED  "+i+"",Toast.LENGTH_SHORT);
+                //   Log.w("STATE CHANGED", i + "");
+                //   Toast.makeText(getBaseContext(),"STATE CHANGED  "+i+"",Toast.LENGTH_SHORT);
             }
 
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 //headView.smoothScrollToPosition(i);
-                head.setImageResource(image1[i]);
-                Log.w("ON SCROLL",i+"  "+i1+"  "+i2);
-                Toast.makeText(getBaseContext(), "ON SCROLL " + i+"  "+i1+"  "+i2, Toast.LENGTH_SHORT);
+                headView.setImageResource(headImage[i]);
+                headName.setText(moviesName[i]);
+          //      cast1.setImageResource(headImage[(i+4)%16]);
+           //     cast2.setImageResource(headImage[(i+5)%16]);
+                headId = i;
+                // Log.w("ON SCROLL", i + "  " + i1 + "  " + i2);
+                // Toast.makeText(getBaseContext(), "ON SCROLL " + i+"  "+i1+"  "+i2, Toast.LENGTH_SHORT);
             }
         });
+        headView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startMoviesActivity(headId);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -86,7 +107,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+    public void startMoviesActivity(int movieId){
+        Intent moviesActivity = new Intent(this,MoviesActivity.class);
+        moviesActivity.putExtra("movieId",movieId);
+        startActivity(moviesActivity);
     }
 }
