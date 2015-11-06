@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,19 +47,24 @@ public class MainActivity extends AppCompatActivity {
         language = moviesData.getMovieLanguage();
 
         ListView listView = (ListView) findViewById(R.id.list);
+
         CustomAdapter movieListAdapter = new CustomAdapter(moviesName,iconImage,headImage,rating,year,language, this);
         listView.setAdapter(movieListAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                notificationCompat.setSmallIcon(android.R.drawable.sym_def_app_icon);
+               /* notificationCompat.setSmallIcon(android.R.drawable.sym_def_app_icon);
                 notificationCompat.setContentTitle("List View Practice");
                 notificationCompat.setContentText("The User Pressed " + i);
                 notificationManager.notify(1, notificationCompat.build());
+
                 Toast.makeText(getBaseContext(), i + " ", Toast.LENGTH_LONG).show();
+                */
                 startMoviesActivity(i + 1);
             }
         });
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -92,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         return true;
     }
 

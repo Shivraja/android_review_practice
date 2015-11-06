@@ -9,7 +9,7 @@ public class Movies {
     int year;
     String language;
     List casts ;
-    List links;
+    List<String> links;
     int iconImageId;
     int headImageId;
 }
