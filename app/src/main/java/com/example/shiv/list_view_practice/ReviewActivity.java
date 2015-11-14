@@ -3,6 +3,7 @@ package com.example.shiv.list_view_practice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ public class ReviewActivity extends AppCompatActivity {
     ReviewAdapter reviewAdapter;
     ImageView headImage;
     int movieId;
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,13 +24,39 @@ public class ReviewActivity extends AppCompatActivity {
 
         headImage = (ImageView)findViewById(R.id.review_head_Image);
         reviewList = (ListView)findViewById(R.id.review_review_list_view);
-        ReviewData reviewData = new ReviewData();
-        Reviews reviews[] = reviewData.getReviews(1+"");
+        ReviewDataRetriever reviewDataRetriever = new ReviewDataRetriever();
+        Reviews reviews[] = reviewDataRetriever.getReviews(1+"");
         reviewAdapter = new ReviewAdapter(reviews,this);
         reviewList.setAdapter(reviewAdapter);
+        /*
+        reviewList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                if(i==1){
+                    headImage.getLayoutParams().height=0;
+                    headImage.setVisibility(View.INVISIBLE);
+                    headImage.setMaxHeight(0);
+                    headImage.setMinimumHeight(0);
+                }
+                else if(i==0){
+                    headImage.setMaxHeight(300);
+                    headImage.setMinimumHeight(300);
+                    headImage.setEnabled(true);
+                    headImage.getLayoutParams().height=300;
+                    headImage.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        */
+
         Intent currentIntent = this.getIntent();
         movieId = currentIntent.getIntExtra("movieId", 1);
-        Movies movies = MoviesData.movieList[movieId];
+        Movies movies = MoviesDataRetriever.movieList[movieId];
         setTitle(movies.movieName);
         headImage.setImageResource(movies.headImageId);
     }

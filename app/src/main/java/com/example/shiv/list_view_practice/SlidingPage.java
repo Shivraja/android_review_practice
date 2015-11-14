@@ -24,13 +24,11 @@ public class SlidingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sliding_page);
 
-        setTitle("ReelBox");
+        setTitle("Reel Box");
         toolbar = (Toolbar) findViewById(R.id.toolbars);
 
         Log.w("Sliding Page",toolbar+"");
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -44,6 +42,7 @@ public class SlidingPage extends AppCompatActivity {
         adapter.addFragment(new TamilFragment(), "Tamil");
         adapter.addFragment(new TamilFragment(), "English");
         adapter.addFragment(new TamilFragment(), "Hindi");
+        adapter.addFragment(new TamilFragment(), "<3");
         viewPager.setAdapter(adapter);
     }
 

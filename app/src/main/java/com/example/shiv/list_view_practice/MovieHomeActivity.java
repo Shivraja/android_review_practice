@@ -3,21 +3,24 @@ package com.example.shiv.list_view_practice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
-public class MoviesHome extends AppCompatActivity {
+public class MovieHomeActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     ViewFlipper tamil_popular, tamil_recent, tamil_rated, english_popular, english_recent, english_rated;
 
     int headImages[] = {R.drawable.head_1,R.drawable.head_2,R.drawable.head_3,R.drawable.head_4,R.drawable.head_5,R.drawable.head_6,R.drawable.head_7,R.drawable.head_8,R.drawable.head_9,R.drawable.head_10,R.drawable.head_abi,R.drawable.head_aranmanai,R.drawable.head_saivam};
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies_home);
+
+        setContentView(R.layout.activity_movie_home);
         tamil_popular = (ViewFlipper)findViewById(R.id.movie_flipper_tamil_popular);
         tamil_rated = (ViewFlipper)findViewById(R.id.movie_flipper_tamil_rated);
         tamil_recent = (ViewFlipper)findViewById(R.id.movie_flipper_tamil_recent);
@@ -110,33 +113,19 @@ public class MoviesHome extends AppCompatActivity {
             english_recent.addView(imageView);
         }
 
-        tamil_popular.setAutoStart(true);
-        tamil_popular.setFlipInterval(1700);
-        tamil_popular.startFlipping();
+
         tamil_popular.setInAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_in);
         tamil_popular.setOutAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
 
-        tamil_rated.setAutoStart(true);
-        tamil_rated.setFlipInterval(1800);
-        tamil_rated.startFlipping();
         tamil_rated.setInAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_in);
         tamil_rated.setOutAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
 
-        tamil_recent.setAutoStart(true);
-        tamil_recent.setFlipInterval(1900);
-        tamil_recent.startFlipping();
         tamil_recent.setInAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_in);
         tamil_recent.setOutAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
 
-        english_popular.setAutoStart(true);
-        english_popular.setFlipInterval(1700);
-        english_popular.startFlipping();
         english_popular.setInAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_in);
         english_popular.setOutAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
 
-        english_rated.setAutoStart(true);
-        english_rated.setFlipInterval(1800);
-        english_rated.startFlipping();
         english_rated.setInAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_in);
         english_rated.setOutAnimation(this, android.support.v7.appcompat.R.anim.abc_fade_out);
 
@@ -159,6 +148,31 @@ public class MoviesHome extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        tamil_popular.setAutoStart(true);
+        tamil_popular.setFlipInterval(1700);
+        tamil_popular.startFlipping();
+
+        tamil_rated.setAutoStart(true);
+        tamil_rated.setFlipInterval(1800);
+        tamil_rated.startFlipping();
+
+        tamil_recent.setAutoStart(true);
+        tamil_recent.setFlipInterval(1900);
+        tamil_recent.startFlipping();
+
+        english_popular.setAutoStart(true);
+        english_popular.setFlipInterval(1700);
+        english_popular.startFlipping();
+
+        english_rated.setAutoStart(true);
+        english_rated.setFlipInterval(1800);
+        english_rated.startFlipping();
+
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
     }
@@ -172,6 +186,7 @@ public class MoviesHome extends AppCompatActivity {
         english_popular.stopFlipping();
         english_rated.stopFlipping();
         english_recent.stopFlipping();
+
     }
 
     @Override

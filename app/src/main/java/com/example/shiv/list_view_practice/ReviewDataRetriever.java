@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created by Shiv on 22-Oct-15.
  */
-public class ReviewData {
+public class ReviewDataRetriever {
 
     static Reviews review[];
 
@@ -33,7 +33,7 @@ public class ReviewData {
         }
     }
 
-    public ReviewData(){
+    public ReviewDataRetriever(){
         initialise();
     }
     public Reviews[] getReviews(String movieId){

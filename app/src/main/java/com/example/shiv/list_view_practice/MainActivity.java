@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +19,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    MoviesData moviesData = new MoviesData();
+    MoviesDataRetriever moviesData;
     int iconImage[], headImage[] ;
     String[] moviesName;
     double[] rating;
@@ -28,27 +30,32 @@ public class MainActivity extends AppCompatActivity {
     NotificationCompat.Builder notificationCompat;
     ImageView headView, cast1, cast2;
     TextView headName;
+    Movies[] movies;
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        moviesData = new MoviesDataRetriever(getResources());
+        Intent intent = this.getIntent();
+        Log.w("NAME",intent.getCharSequenceExtra("Name")+"");
+        Log.w("NAME",intent.getStringExtra("Name")+"");
+        setTitle(intent.getStringExtra("Name"));
+
         setContentView(R.layout.activity_main);
-        notificationCompat = new NotificationCompat.Builder(this);
-        notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+       notificationCompat = new NotificationCompat.Builder(this);
+       notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
         headView = (ImageView)findViewById(R.id.headimage);
         headName = (TextView)findViewById(R.id.head_name);
-        //cast1 = (ImageView)findViewById(R.id.cast1);
-        //cast2 = (ImageView)findViewById(R.id.cast2);
-        iconImage = moviesData.getIconImages();
-        headImage = moviesData.getHeadImages();
-        moviesName = moviesData.getMovieNames();
-        rating = moviesData.getMovieRatings();
-        year = moviesData.getMovieYear();
-        language = moviesData.getMovieLanguage();
 
         ListView listView = (ListView) findViewById(R.id.list);
 
-        CustomAdapter movieListAdapter = new CustomAdapter(moviesName,iconImage,headImage,rating,year,language, this);
+        movies = moviesData.getAllMovies();
+
+        MovieListAdapter movieListAdapter = new MovieListAdapter(movies,getResources(), this);
         listView.setAdapter(movieListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 //headView.smoothScrollToPosition(i);
-                headView.setImageResource(headImage[i]);
-                headName.setText(moviesName[i]);
+                headView.setImageBitmap(movies[i].headImageBitmap);
+          //      headView.setImageResource(movies[i].headImageId);
+                headName.setText(movies[i].movieName);
           //      cast1.setImageResource(headImage[(i+4)%16]);
            //     cast2.setImageResource(headImage[(i+5)%16]);
                 headId = i;

@@ -28,22 +28,19 @@
         android:src="@drawable/a10" />
 
     <TextView
+        android:maxWidth="200dp"
         android:inputType="textNoSuggestions"
         android:id="@+id/movie_name"
-        android:layout_width="wrap_content"
-        android:layout_height="30dip"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/icon"
         android:layout_toRightOf="@id/icon"
-        android:ellipsize="marquee"
-        android:fadingEdge="horizontal"
-        android:fadingEdgeLength="5dp"
-        android:padding="3dp"
-        android:requiresFadingEdge="horizontal"
-        android:singleLine="true"
-        android:text="Vedhalam"
+        android:padding="5dp"
+        android:text="Vedhalamasdfadsfadsdfg \nsfadsfadsfadfg"
         android:textColor="#ffffff"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_alignBottom="@+id/movie_year" />
 
     <TextView
         android:inputType="textNoSuggestions"
@@ -53,8 +50,8 @@
         android:layout_alignLeft="@id/movie_name"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@id/movie_name"
-        android:layout_marginBottom="10dp"
         android:padding="5dp"
+        android:layout_marginBottom="5dp"
         android:text="Tamil"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff" />

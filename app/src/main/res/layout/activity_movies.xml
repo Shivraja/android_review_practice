@@ -1,12 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#101010"
     android:baselineAligned="false"
     android:orientation="vertical"
+    android:id="@+id/movies_activity_layout"
     android:padding="10dp"
     tools:context="com.example.shiv.list_view_practice.MoviesActivity">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +26,7 @@
                 android:layout_height="150dp"
                 android:layout_marginBottom="10dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/a2" />
+                android:src="@drawable/head_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -50,12 +52,12 @@
                     android:textSize="15dp" />
 
                 <ImageView
-                    android:onClick="addFavourite"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:onClick="addFavourite"
                     android:padding="10dp"
                     android:src="@drawable/ic_favorite_white_24dp" />
             </RelativeLayout>
@@ -78,16 +80,16 @@
                 android:textStyle="bold" />
 
             <RatingBar
-                style="@style/customRatingBar"
-                android:isIndicator="false"
-                android:numStars="6"
-                android:rating="1"
-                android:stepSize="1"
                 android:id="@+id/movie_rate"
+                style="@style/customRatingBar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:alpha="0.6" />
+                android:alpha="0.6"
+                android:isIndicator="false"
+                android:numStars="6"
+                android:rating="1"
+                android:stepSize="1" />
 
             <View
                 android:layout_width="match_parent"
@@ -108,106 +110,118 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></HorizontalScrollView>
-            <LinearLayout
-                android:id="@+id/movie_casts"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal"
-                android:weightSum="4">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1">
+                <LinearLayout
+                    android:id="@+id/movie_casts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/a10" />
+                    <RelativeLayout
+                        android:layout_width="100dp"
+                        android:layout_height="110dp"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:alpha="0.8"
-                        android:background="#000000"
-                        android:gravity="center"
-                        android:text="Surya\n(Director)"
-                        android:textColor="#ffffff" />
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/imageView1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:onClick="zoomImage"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/rajini" />
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/imageView1"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:alpha="0.8"
+                            android:background="#000000"
+                            android:gravity="center"
+                            android:text="Rajini"
+                            android:textColor="#ffffff" />
+                    </RelativeLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/a2" />
+                    <RelativeLayout
+                        android:layout_width="100dp"
+                        android:layout_height="110dp"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:alpha="0.8"
-                        android:background="#000000"
-                        android:gravity="center"
-                        android:text="Surya\n(Director)"
-                        android:textColor="#ffffff" />
-                </RelativeLayout>
+                        <ImageView
+                            android:onClick="zoomImage"
+                            android:id="@+id/imageView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/surya" />
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:alpha="0.8"
+                            android:background="#000000"
+                            android:gravity="center"
+                            android:text="Surya"
+                            android:textColor="#ffffff" />
+                    </RelativeLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/a16" />
+                    <RelativeLayout
+                        android:layout_width="100dp"
+                        android:layout_height="110dp"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:alpha="0.8"
-                        android:background="#000000"
-                        android:gravity="center"
-                        android:text="Surya\n(Director)"
-                        android:textColor="#ffffff" />
-                </RelativeLayout>
+                        <ImageView
+                            android:onClick="zoomImage"
+                            android:id="@+id/imageView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/trisha" />
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:alpha="0.8"
+                            android:background="#000000"
+                            android:gravity="center"
+                            android:text="Trisha"
+                            android:textColor="#ffffff" />
+                    </RelativeLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/a6" />
+                    <RelativeLayout
+                        android:layout_width="100dp"
+                        android:layout_height="110dp"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:alpha="0.8"
-                        android:background="#000000"
-                        android:gravity="center"
-                        android:text="Surya\n(Director)"
-                        android:textColor="#ffffff" />
-                </RelativeLayout>
-            </LinearLayout>
+                        <ImageView
+                            android:onClick="zoomImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/kajal"
+                            android:id="@+id/imageView4"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:alpha="0.8"
+                            android:background="#000000"
+                            android:gravity="center"
+                            android:text="Priya"
+                            android:textColor="#ffffff" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"
@@ -260,17 +274,18 @@
 
                 <EditText
                     android:id="@+id/user_review"
-                    android:hint="Your Review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Your Review"
                     android:paddingLeft="10dp"
                     android:textColor="#ffffff" />
+
                 <Button
                     android:id="@+id/review_submit_button"
-                    android:text="SUBMIT REVIEW"
-                    android:onClick="SubmitReview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:onClick="SubmitReview"
+                    android:text="SUBMIT REVIEW" />
             </LinearLayout>
 
             <View
@@ -285,13 +300,23 @@
                 android:id="@+id/showReviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#d900654a"
                 android:padding="10dp"
                 android:text="Show All Reviews :-"
                 android:textColor="#ffffff"
                 android:textSize="20dp"
-                android:textStyle="bold"
-                android:background="#d900654a" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <ImageView
+        android:src="@drawable/rajini"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/expanded_image"
+        android:visibility="invisible"
+        android:layout_margin="10dp" />
+</FrameLayout>

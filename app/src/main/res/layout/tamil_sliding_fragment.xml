@@ -32,6 +32,15 @@
                     android:text="Popular"
                     android:textColor="#ffffff"
                     android:textSize="15dp" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:id="@+id/tamil_popular_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout

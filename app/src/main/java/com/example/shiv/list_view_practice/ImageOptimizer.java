@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
  */
 public class ImageOptimizer {
     static Bitmap getCorrespondingBitmap(Resources resources, int resourceId, int width, int height){
+
         return decodeSampledBitmapFromResource(resources, resourceId, width, height);
     }
 

@@ -1,6 +1,7 @@
 package com.example.shiv.list_view_practice;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,26 +9,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapter extends BaseAdapter {
+public class MovieListAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
-    String[] movieNames;
-    int[] iconImage, headImage;
-    double[] rating;
-    int[] year;
-    String[] language;
+    Movies[] movies;
 
     ImageView backgroundImageView, iconImageView;
     TextView movieNameView, languageView, yearView;
 
-    public CustomAdapter(String[] movieNames, int[] iconImage, int[] headImage, double[] rating, int[] year, String[] language, Context context) {
-        this.movieNames = movieNames;
-        this.iconImage = iconImage;
-        this.headImage = headImage;
-        this.rating = rating;
-        this.year = year;
-        this.language = language;
+    public MovieListAdapter(Movies[] movies, Resources resources, Context context) {
+
         this.context = context;
+        this.movies = movies;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -38,12 +31,12 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return movieNames.length - 1;
+        return movies.length - 1;
     }
 
     @Override
     public Object getItem(int i) {
-        return movieNames[i + 1];
+        return movies[i + 1];
     }
 
     @Override
@@ -62,11 +55,14 @@ public class CustomAdapter extends BaseAdapter {
         languageView = (TextView) view.findViewById(R.id.movie_language);
         yearView = (TextView) view.findViewById(R.id.movie_year);
         i++;
-        backgroundImageView.setImageResource(headImage[i]);
-        iconImageView.setImageResource(iconImage[i]);
-        movieNameView.setText(movieNames[i]);
-        languageView.setText(language[i]);
-        yearView.setText(year[i] + "");
+
+        backgroundImageView.setImageBitmap(movies[i].headImageBitmap);
+        iconImageView.setImageBitmap(movies[i].iconImageBitmap);
+    //    backgroundImageView.setImageResource(movies[i].headImageId);
+    //    iconImageView.setImageResource(movies[i].iconImageId);
+        movieNameView.setText(movies[i].movieName);
+        languageView.setText(movies[i].language);
+        yearView.setText(movies[i].year + "");
         return view;
     }
 }
