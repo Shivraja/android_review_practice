@@ -1,17 +1,19 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.graphics.Bitmap;
 
 import java.util.List;
 
-public class Movies {
+public class Movie {
     int movieId;
     String movieName;
-    double rating;
+    float rating;
     int year;
+    String date;
     String language;
     List casts ;
     List<String> links;
+    int viewCount;
     int iconImageId;
     int headImageId;
     Bitmap iconImageBitmap;

@@ -1,4 +1,4 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,13 +12,13 @@ import android.widget.TextView;
 /**
  * Created by Shiv on 22-Oct-15.
  */
-public class ReviewAdapter extends BaseAdapter {
-    Reviews reviewArray[];
+public class ReviewListAdapter extends BaseAdapter {
+    Review reviewArray[];
     Context context;
     TextView userName, likes, unlikes, review;
     ImageView userImage;
     LayoutInflater layoutInflater;
-    ReviewAdapter(Reviews reviews[], Context context){
+    ReviewListAdapter(Review reviews[], Context context){
         this.reviewArray = reviews;
         this.context = context;
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,7 +43,7 @@ public class ReviewAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null)
-            view = layoutInflater.inflate(R.layout.review_layout,viewGroup,false);
+            view = layoutInflater.inflate(R.layout.review_list_layout,viewGroup,false);
 
         Log.w("REVIEW LIST",i+"");
         userName = (TextView)view.findViewById(R.id.user_name);

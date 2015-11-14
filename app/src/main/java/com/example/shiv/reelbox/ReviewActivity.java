@@ -1,4 +1,4 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import android.widget.ListView;
 public class ReviewActivity extends AppCompatActivity {
 
     ListView reviewList;
-    ReviewAdapter reviewAdapter;
+    ReviewListAdapter reviewListAdapter;
     ImageView headImage;
+    ImageView backgroundImage;
     int movieId;
     Toolbar toolbar;
 
@@ -22,12 +23,20 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
+        Intent intent = this.getIntent();
+        int movieId = intent.getIntExtra("movieId",1);
         headImage = (ImageView)findViewById(R.id.review_head_Image);
+        backgroundImage = (ImageView)findViewById(R.id.review_background_image);
         reviewList = (ListView)findViewById(R.id.review_review_list_view);
-        ReviewDataRetriever reviewDataRetriever = new ReviewDataRetriever();
-        Reviews reviews[] = reviewDataRetriever.getReviews(1+"");
-        reviewAdapter = new ReviewAdapter(reviews,this);
-        reviewList.setAdapter(reviewAdapter);
+        ReviewDataRetriever reviewDataRetriever = new ReviewDataRetriever(this,getResources());
+        Review reviews[] = reviewDataRetriever.getReviews(movieId);
+        reviewListAdapter = new ReviewListAdapter(reviews,this);
+        reviewList.setAdapter(reviewListAdapter);
+        if (CONSTANTS.BACKGROUND_IMAGE == null)
+            CONSTANTS.BACKGROUND_IMAGE = ImageOptimizer.getCorrespondingBitmap(getResources(), R.drawable.skin_full_page_bgimage_a, 200, 500);
+        backgroundImage.setImageBitmap(CONSTANTS.BACKGROUND_IMAGE);
+
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /*
         reviewList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -56,9 +65,9 @@ public class ReviewActivity extends AppCompatActivity {
 
         Intent currentIntent = this.getIntent();
         movieId = currentIntent.getIntExtra("movieId", 1);
-        Movies movies = MoviesDataRetriever.movieList[movieId];
-        setTitle(movies.movieName);
-        headImage.setImageResource(movies.headImageId);
+        Movie movie = new MoviesDataRetriever(this,getResources()).getMovie(movieId);
+        setTitle(movie.movieName);
+        headImage.setImageBitmap(movie.headImageBitmap);
     }
 
     @Override

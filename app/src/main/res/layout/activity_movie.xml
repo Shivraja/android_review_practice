@@ -7,13 +7,20 @@
     android:orientation="vertical"
     android:id="@+id/movies_activity_layout"
     android:padding="10dp"
-    tools:context="com.example.shiv.list_view_practice.MoviesActivity">
+    tools:context="com.example.shiv.reelbox.MovieActivity">
 
+    <ImageView
+        android:scaleType="fitXY"
+        android:alpha=".5"
+        android:id="@+id/movie_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,9 +41,9 @@
 
                 <TextView
                     android:id="@+id/movie_movie_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:text="Sutrula (2015)"
+                    android:text="Sutrula \n(2015)"
                     android:textColor="#ffffff"
                     android:textSize="25dp"
                     android:textStyle="bold" />
@@ -52,6 +59,7 @@
                     android:textSize="15dp" />
 
                 <ImageView
+                    android:id="@+id/favourite_image"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
@@ -115,12 +123,12 @@
                 <LinearLayout
                     android:id="@+id/movie_casts"
                     android:layout_width="wrap_content"
-                    android:layout_height="110dp"
+                    android:layout_height="90dp"
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="100dp"
-                        android:layout_height="110dp"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp"
                         android:padding="5dp">
 
                         <ImageView
@@ -146,8 +154,8 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="100dp"
-                        android:layout_height="110dp"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp"
                         android:padding="5dp">
 
                         <ImageView
@@ -156,7 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="fitXY"
-                            android:src="@drawable/surya" />
+                            android:src="@drawable/surya_2" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -171,8 +179,8 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="100dp"
-                        android:layout_height="110dp"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp"
                         android:padding="5dp">
 
                         <ImageView
@@ -196,8 +204,8 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="100dp"
-                        android:layout_height="110dp"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp"
                         android:padding="5dp">
 
                         <ImageView
@@ -288,22 +296,14 @@
                     android:text="SUBMIT REVIEW" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="15dp"
-                android:alpha=".5"
-                android:background="#c0c0c0" />
-
-            <TextView
+            <Button
                 android:id="@+id/showReviews"
-                android:layout_width="wrap_content"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#d900654a"
                 android:padding="10dp"
-                android:text="Show All Reviews :-"
-                android:textColor="#ffffff"
+                android:background="#44000000"
+                android:text="Show All Reviews"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -311,12 +311,14 @@
     </ScrollView>
 
     <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="#000000"
         android:src="@drawable/rajini"
         android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:scaleType="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/expanded_image"
-        android:visibility="invisible"
-        android:layout_margin="10dp" />
+        android:visibility="invisible" />
 </FrameLayout>

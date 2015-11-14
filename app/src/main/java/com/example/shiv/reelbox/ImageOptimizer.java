@@ -1,15 +1,16 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 /**
  * Created by Shiv on 07-Nov-15.
  */
 public class ImageOptimizer {
     static Bitmap getCorrespondingBitmap(Resources resources, int resourceId, int width, int height){
-
+        Log.w("IMAGE_OPTIMISER","Image Optimiser Called");
         return decodeSampledBitmapFromResource(resources, resourceId, width, height);
     }
 

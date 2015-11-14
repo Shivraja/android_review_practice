@@ -1,0 +1,11 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.shiv.reelbox.LoginSignupActivity">
+    <ImageView
+        android:src="@drawable/skin_full_page_bgimage_a"
+        android:scaleType="centerCrop"
+        android:id="@+id/login_signup_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

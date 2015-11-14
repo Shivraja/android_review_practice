@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#101010"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ViewFlipper
+                    android:id="@+id/movie_flipper_english_popular"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha=".8"
+                    android:background="#000000"
+                    android:padding="3dp"
+                    android:text="Popular"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:id="@+id/english_popular_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ViewFlipper
+                    android:id="@+id/movie_flipper_english_rated"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha=".8"
+                    android:background="#000000"
+                    android:padding="3dp"
+                    android:text="Top Rated"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ViewFlipper
+                    android:id="@+id/movie_flipper_english_recent"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha=".8"
+                    android:background="#000000"
+                    android:padding="3dp"
+                    android:text="Recent"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

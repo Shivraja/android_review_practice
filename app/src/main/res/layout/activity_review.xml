@@ -1,10 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical"
-    tools:context="com.example.shiv.list_view_practice.ReviewActivity">
+    tools:context="com.example.shiv.reelbox.ReviewActivity">
+    <ImageView
+        android:scaleType="matrix"
+        android:src="@drawable/skin_full_page_bgimage_a"
+        android:id="@+id/review_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <ImageView
         android:id="@+id/review_head_Image"
         android:layout_width="match_parent"
@@ -12,23 +18,23 @@
         android:layout_marginBottom="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/head_4" />
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:padding="10dp"
+        android:text="Reviews :-"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_above="@+id/review_review_list_view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <ListView
+        android:id="@+id/review_review_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="315dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Reviews :-"
-            android:textColor="#ffffff"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <ListView
-            android:id="@+id/review_review_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

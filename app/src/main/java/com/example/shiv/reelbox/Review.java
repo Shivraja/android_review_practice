@@ -1,13 +1,13 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 /**
  * Created by Shiv on 22-Oct-15.
  */
-public class Reviews {
+public class Review {
     int userImage;
-    String movieId;
+    int movieId;
     String userId;
-    String reviewId;
+    int reviewId;
     String time;
     String review;
     int likes;

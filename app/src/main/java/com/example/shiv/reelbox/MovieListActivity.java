@@ -1,4 +1,4 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,45 +15,60 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MovieListActivity extends AppCompatActivity {
 
     MoviesDataRetriever moviesData;
-    int iconImage[], headImage[] ;
-    String[] moviesName;
-    double[] rating;
-    int[] year;
-    String[] language;
     static int headId;
     NotificationManager notificationManager;
     NotificationCompat.Builder notificationCompat;
     ImageView headView, cast1, cast2;
     TextView headName;
-    Movies[] movies;
-    Toolbar toolbar;
+    static Movie[] movies;
+    String activityName = null;
+    static Movie[] tamilPopular = null, tamilRecent = null, tamilRated = null, others = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        moviesData = new MoviesDataRetriever(getResources());
+        moviesData = new MoviesDataRetriever(this, getResources());
         Intent intent = this.getIntent();
-        Log.w("NAME",intent.getCharSequenceExtra("Name")+"");
-        Log.w("NAME",intent.getStringExtra("Name")+"");
-        setTitle(intent.getStringExtra("Name"));
+        activityName = intent.getStringExtra("Name");
+        setTitle(activityName);
+        setContentView(R.layout.activity_movie_list);
 
-        setContentView(R.layout.activity_main);
-       notificationCompat = new NotificationCompat.Builder(this);
-       notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        if(activityName == null){
+            activityName = "Tamil Popular";
+        }
 
-        headView = (ImageView)findViewById(R.id.headimage);
-        headName = (TextView)findViewById(R.id.head_name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        notificationCompat = new NotificationCompat.Builder(this);
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        headView = (ImageView) findViewById(R.id.headimage);
+        headName = (TextView) findViewById(R.id.head_name);
 
         ListView listView = (ListView) findViewById(R.id.list);
-
-        movies = moviesData.getAllMovies();
-
-        MovieListAdapter movieListAdapter = new MovieListAdapter(movies,getResources(), this);
+        if (activityName.matches("Tamil Popular")) {
+            if (tamilPopular == null)
+                tamilPopular = moviesData.getPopularMovies("Tamil");
+            movies = tamilPopular;
+        } else if (activityName.matches("Tamil Rated")) {
+            if (tamilRated == null)
+                tamilRated = moviesData.getRatedMovies("Tamil");
+            movies = tamilRated;
+        } else if (activityName.matches("Tamil Recent")) {
+            if (tamilRecent == null)
+                tamilRecent = moviesData.getRecentMovies("Tamil");
+            movies = tamilRecent;
+        } else {
+            if (others == null)
+                others = moviesData.getAllMovies();
+            movies = others;
+        }
+        MovieListAdapter movieListAdapter = new MovieListAdapter(movies, getResources(), this);
         listView.setAdapter(movieListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 //headView.smoothScrollToPosition(i);
                 headView.setImageBitmap(movies[i].headImageBitmap);
-          //      headView.setImageResource(movies[i].headImageId);
+                //      headView.setImageResource(movies[i].headImageId);
                 headName.setText(movies[i].movieName);
-          //      cast1.setImageResource(headImage[(i+4)%16]);
-           //     cast2.setImageResource(headImage[(i+5)%16]);
+                //      cast1.setImageResource(headImage[(i+4)%16]);
+                //     cast2.setImageResource(headImage[(i+5)%16]);
                 headId = i;
                 // Log.w("ON SCROLL", i + "  " + i1 + "  " + i2);
                 // Toast.makeText(getBaseContext(), "ON SCROLL " + i+"  "+i1+"  "+i2, Toast.LENGTH_SHORT);
@@ -103,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_movie_list, menu);
         return true;
     }
 
@@ -120,9 +133,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void startMoviesActivity(int movieId){
-        Intent moviesActivity = new Intent(this,MoviesActivity.class);
-        moviesActivity.putExtra("movieId",movieId);
+
+    public void startMoviesActivity(int movieId) {
+        Intent moviesActivity = new Intent(this, MovieActivity.class);
+        moviesActivity.putExtra("movieId", movieId);
         startActivity(moviesActivity);
     }
 }

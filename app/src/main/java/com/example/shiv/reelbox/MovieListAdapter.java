@@ -1,4 +1,4 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,12 +12,12 @@ import android.widget.TextView;
 public class MovieListAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
-    Movies[] movies;
+    Movie[] movies;
 
     ImageView backgroundImageView, iconImageView;
     TextView movieNameView, languageView, yearView;
 
-    public MovieListAdapter(Movies[] movies, Resources resources, Context context) {
+    public MovieListAdapter(Movie[] movies, Resources resources, Context context) {
 
         this.context = context;
         this.movies = movies;
@@ -47,7 +47,7 @@ public class MovieListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null)
-            view = layoutInflater.inflate(R.layout.list_view, viewGroup, false);
+            view = layoutInflater.inflate(R.layout.movie_list_layout, viewGroup, false);
 
         backgroundImageView = (ImageView) view.findViewById(R.id.background);
         iconImageView = (ImageView) view.findViewById(R.id.icon);
@@ -55,11 +55,8 @@ public class MovieListAdapter extends BaseAdapter {
         languageView = (TextView) view.findViewById(R.id.movie_language);
         yearView = (TextView) view.findViewById(R.id.movie_year);
         i++;
-
         backgroundImageView.setImageBitmap(movies[i].headImageBitmap);
         iconImageView.setImageBitmap(movies[i].iconImageBitmap);
-    //    backgroundImageView.setImageResource(movies[i].headImageId);
-    //    iconImageView.setImageResource(movies[i].iconImageId);
         movieNameView.setText(movies[i].movieName);
         languageView.setText(movies[i].language);
         yearView.setText(movies[i].year + "");

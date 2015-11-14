@@ -1,4 +1,4 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,7 +13,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingPage extends AppCompatActivity {
+public class SlidingPageActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -39,10 +39,10 @@ public class SlidingPage extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TamilFragment(), "Tamil");
-        adapter.addFragment(new TamilFragment(), "English");
-        adapter.addFragment(new TamilFragment(), "Hindi");
-        adapter.addFragment(new TamilFragment(), "<3");
+        adapter.addFragment(new TamilSlidingFragment(), "Tamil");
+        adapter.addFragment(new TamilSlidingFragment(), "English");
+        adapter.addFragment(new TamilSlidingFragment(), "Hindi");
+        adapter.addFragment(new TamilSlidingFragment(), "Fav");
         viewPager.setAdapter(adapter);
     }
 

@@ -1,4 +1,4 @@
-package com.example.shiv.list_view_practice;
+package com.example.shiv.reelbox;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -25,59 +25,70 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class MoviesActivity extends AppCompatActivity {
+public class MovieActivity extends AppCompatActivity {
 
     TextView movieName;
     ImageView headImage;
+    ImageView backgroundImage;
     TextView language;
     RatingBar rating;
     TextView year;
     ListView reviewList;
-    TextView showReviews;
-    ReviewAdapter reviewAdapter;
+    Button showReviews;
+    ImageView favouriteImageView;
+    ReviewListAdapter reviewListAdapter;
     LinearLayout links;
     Toolbar toolbar;
+    static MoviesDataRetriever moviesDataRetriever;
     int movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+
+        moviesDataRetriever = new MoviesDataRetriever(this, getResources());
+
+        setContentView(R.layout.activity_movie);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        if (CONSTANTS.BACKGROUND_IMAGE == null)
+            CONSTANTS.BACKGROUND_IMAGE = ImageOptimizer.getCorrespondingBitmap(getResources(), R.drawable.skin_full_page_bgimage_a, 200, 500);
         movieName = (TextView) findViewById(R.id.movie_movie_name);
         headImage = (ImageView) findViewById(R.id.movie_head_Image);
+        backgroundImage = (ImageView) findViewById(R.id.movie_background_image);
+        backgroundImage.setImageBitmap(CONSTANTS.BACKGROUND_IMAGE);
+        favouriteImageView = (ImageView) findViewById(R.id.favourite_image);
         language = (TextView) findViewById(R.id.movie_movie_language);
         rating = (RatingBar) findViewById(R.id.movie_rate);
-        links = (LinearLayout)findViewById(R.id.links);
+        links = (LinearLayout) findViewById(R.id.links);
 
         Intent currentIntent = this.getIntent();
         movieId = currentIntent.getIntExtra("movieId", 1);
 
-        Movies movies = MoviesDataRetriever.movieList[movieId];
-        movieName.setText(movies.movieName+" ("+movies.year+")");
-        headImage.setImageResource(movies.headImageId);
-        language.setText("Language : "+movies.language);
-        rating.setRating(((float) movies.rating));
+        Movie movie = moviesDataRetriever.getMovie(movieId);
+        movieName.setText(movie.movieName + " (" + movie.year + ")");
+        headImage.setImageBitmap(movie.headImageBitmap);
+        language.setText("Language : " + movie.language);
+        rating.setRating(((float) movie.rating));
 
-        for(String link : movies.links){
+        if(moviesDataRetriever.isFollowed(movieId,CONSTANTS.USER_NAME)){
+            favouriteImageView.setBackgroundColor(Color.parseColor("#b9d4081d"));
+        } else {
+            favouriteImageView.setBackgroundColor(0x00000000);
+        }
+            for (String link : movie.links) {
             TextView textView = new TextView(this);
             textView.setTextColor(Color.WHITE);
             textView.setTextSize(15);
-            String linkText = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link &nbsp;&nbsp;<a href='"+link+"'>"+link+"</a> .";
+            String linkText = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link &nbsp;&nbsp;<a href='" + link + "'>" + link + "</a> .";
             textView.setText(Html.fromHtml(linkText));
             textView.setMovementMethod(LinkMovementMethod.getInstance());
             links.addView(textView);
         }
 
-        setTitle(movies.movieName);
+        setTitle(movie.movieName);
 
-        ReviewDataRetriever reviewDataRetriever = new ReviewDataRetriever();
-
-        Reviews reviews[] = reviewDataRetriever.getReviews(movieId+"");
-
-        showReviews = (TextView)findViewById(R.id.showReviews);
+        showReviews = (Button) findViewById(R.id.showReviews);
         showReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,9 +99,9 @@ public class MoviesActivity extends AppCompatActivity {
         mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
     }
 
-    public void startReviewActivity(){
-        Intent reviewIntent = new Intent(getBaseContext(),ReviewActivity.class);
-        reviewIntent.putExtra("movieId",movieId);
+    public void startReviewActivity() {
+        Intent reviewIntent = new Intent(getBaseContext(), ReviewActivity.class);
+        reviewIntent.putExtra("movieId", movieId);
         startActivity(reviewIntent);
     }
 
@@ -102,7 +113,7 @@ public class MoviesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_movies, menu);
+        getMenuInflater().inflate(R.menu.menu_movie, menu);
         return true;
     }
 
@@ -121,31 +132,38 @@ public class MoviesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public  void SubmitReview(View view){
-        EditText text = (EditText)findViewById(R.id.user_review);
-        Button button = (Button)findViewById(R.id.review_submit_button);
+    public void SubmitReview(View view) {
+        EditText text = (EditText) findViewById(R.id.user_review);
+        Button button = (Button) findViewById(R.id.review_submit_button);
         button.setVisibility(View.INVISIBLE);
         text.setClickable(false);
         text.setCursorVisible(false);
     }
 
-    public void addFavourite(View view){
-        view.setBackgroundColor(Color.parseColor("#b9d4081d"));
+    public void addFavourite(View view) {
+        if (moviesDataRetriever.isFollowed(movieId, CONSTANTS.USER_NAME)) {
+            view.setBackgroundColor(0x00000000);
+            moviesDataRetriever.removeFollow(movieId, CONSTANTS.USER_NAME);
+        } else {
+            view.setBackgroundColor(Color.parseColor("#b9d4081d"));
+            moviesDataRetriever.addFollow(movieId, CONSTANTS.USER_NAME);
+        }
+
     }
 
-    public void zoomImage(View view){
-        switch (view.getId()){
+    public void zoomImage(View view) {
+        switch (view.getId()) {
             case R.id.imageView1:
-                zoomImageFromThumb(view, R.drawable.rajini,R.id.expanded_image);
+                zoomImageFromThumb(view, R.drawable.rajini, R.id.expanded_image);
                 break;
             case R.id.imageView2:
-                zoomImageFromThumb(view, R.drawable.surya,R.id.expanded_image);
+                zoomImageFromThumb(view, R.drawable.surya, R.id.expanded_image);
                 break;
             case R.id.imageView3:
-                zoomImageFromThumb(view, R.drawable.trisha,R.id.expanded_image);
+                zoomImageFromThumb(view, R.drawable.trisha, R.id.expanded_image);
                 break;
             case R.id.imageView4:
-                zoomImageFromThumb(view, R.drawable.unknown,R.id.expanded_image);
+                zoomImageFromThumb(view, R.drawable.unknown, R.id.expanded_image);
                 break;
         }
 
@@ -225,10 +243,8 @@ public class MoviesActivity extends AppCompatActivity {
         // scale properties (X, Y, SCALE_X, and SCALE_Y).
         AnimatorSet set = new AnimatorSet();
         set
-                .play(ObjectAnimator.ofFloat(expandedImageView, View.X,
-                        startBounds.left, finalBounds.left))
-                .with(ObjectAnimator.ofFloat(expandedImageView, View.Y,
-                        startBounds.top, finalBounds.top))
+                .play(ObjectAnimator.ofFloat(expandedImageView, View.X, startBounds.left, finalBounds.left))
+                .with(ObjectAnimator.ofFloat(expandedImageView, View.Y, startBounds.top, finalBounds.top))
                 .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_X,
                         startScale, 1f)).with(ObjectAnimator.ofFloat(expandedImageView,
                 View.SCALE_Y, startScale, 1f));
@@ -266,7 +282,7 @@ public class MoviesActivity extends AppCompatActivity {
                         .ofFloat(expandedImageView, View.X, startBounds.left))
                         .with(ObjectAnimator
                                 .ofFloat(expandedImageView,
-                                        View.Y,startBounds.top))
+                                        View.Y, startBounds.top))
                         .with(ObjectAnimator
                                 .ofFloat(expandedImageView,
                                         View.SCALE_X, startScaleFinal))
