@@ -6,13 +6,13 @@
     android:baselineAligned="false"
     android:orientation="vertical"
     android:id="@+id/movies_activity_layout"
-    android:padding="10dp"
     tools:context="com.example.shiv.reelbox.MovieActivity">
 
     <ImageView
         android:scaleType="fitXY"
         android:alpha=".5"
         android:id="@+id/movie_background_image"
+        android:src="@drawable/skin_full_page_bgimage_a"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -36,6 +36,7 @@
                 android:src="@drawable/head_6" />
 
             <RelativeLayout
+                android:paddingLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -71,37 +72,49 @@
             </RelativeLayout>
 
             <View
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:alpha=".5"
                 android:background="#c0c0c0" />
+
+            <LinearLayout
+                android:id="@+id/rating_fragment"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Your Rating :-"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Rating :-"
                 android:textColor="#ffffff"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <RatingBar
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/movie_rate"
-                style="@style/customRatingBar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_margin="10dp"
                 android:alpha="0.6"
-                android:isIndicator="false"
-                android:numStars="6"
-                android:rating="1"
-                android:stepSize="1" />
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="1.0"
+                android:stepSize="1.0" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:alpha=".5"
@@ -117,6 +130,8 @@
                 android:textStyle="bold" />
 
             <HorizontalScrollView
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -311,14 +326,11 @@
     </ScrollView>
 
     <ImageView
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="#000000"
+        android:background="#dd000000"
         android:src="@drawable/rajini"
-        android:layout_gravity="center"
         android:scaleType="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/expanded_image"
         android:visibility="invisible" />
 </FrameLayout>

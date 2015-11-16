@@ -42,7 +42,7 @@ public class SlidingPageActivity extends AppCompatActivity {
         adapter.addFragment(new TamilSlidingFragment(), "Tamil");
         adapter.addFragment(new TamilSlidingFragment(), "English");
         adapter.addFragment(new TamilSlidingFragment(), "Hindi");
-        adapter.addFragment(new TamilSlidingFragment(), "Fav");
+        adapter.addFragment(new FavouriteSlidingFragment(), "Fav");
         viewPager.setAdapter(adapter);
     }
 

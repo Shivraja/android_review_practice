@@ -29,7 +29,7 @@
                     android:alpha=".8"
                     android:background="#000000"
                     android:padding="3dp"
-                    android:text="Popular"
+                    android:text="POPULAR"
                     android:textColor="#ffffff"
                     android:textSize="15dp" />
 
@@ -58,8 +58,9 @@
                     android:layout_height="wrap_content"
                     android:alpha=".8"
                     android:background="#000000"
+                    android:textStyle="bold"
                     android:padding="3dp"
-                    android:text="Top Rated"
+                    android:text="TOP RATED"
                     android:textColor="#ffffff"
                     android:textSize="15dp" />
             </RelativeLayout>
@@ -80,7 +81,8 @@
                     android:alpha=".8"
                     android:background="#000000"
                     android:padding="3dp"
-                    android:text="Recent"
+                    android:textStyle="bold"
+                    android:text="RECENT"
                     android:textColor="#ffffff"
                     android:textSize="15dp" />
             </RelativeLayout>

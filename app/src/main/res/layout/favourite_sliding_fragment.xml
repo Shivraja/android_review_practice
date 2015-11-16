@@ -1,89 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="#101010"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#7fffffff"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ScrollView
+    <ImageView
+        android:scaleType="fitXY"
+        android:alpha=".5"
+        android:id="@+id/favourite_background_image"
+        android:src="@drawable/skin_full_page_bgimage_a"
+        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ViewFlipper
-                    android:id="@+id/movie_flipper_hindi_popular"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp" />
-
-                <TextView
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha=".8"
-                    android:background="#000000"
-                    android:padding="3dp"
-                    android:text="Popular"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="horizontal"
-                    android:id="@+id/hindi_popular_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp">
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ViewFlipper
-                    android:id="@+id/movie_flipper_hindi_rated"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha=".8"
-                    android:background="#000000"
-                    android:padding="3dp"
-                    android:text="Top Rated"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ViewFlipper
-                    android:id="@+id/movie_flipper_hindi_recent"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha=".8"
-                    android:background="#000000"
-                    android:padding="3dp"
-                    android:text="Recent"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+        android:layout_height="match_parent" />
+    <ListView
+        android:id="@+id/favourite_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

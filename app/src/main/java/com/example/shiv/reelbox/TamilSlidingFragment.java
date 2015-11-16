@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,13 @@ public class TamilSlidingFragment extends Fragment {
         if (isBitmapCalculated == false) {
             calculateBitmap();
         }
+
+        tamil_popular.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                Log.w("INDICATOR",i+" "+i1+" "+i2+" "+i3+" "+i4+" "+i5+" "+i6+" "+i7);
+            }
+        });
 
         for (int i = 0; i < 5; i++) {
             indicatorImageView[i] = new ImageView(getContext());

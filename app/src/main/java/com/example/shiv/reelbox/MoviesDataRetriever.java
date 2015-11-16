@@ -126,6 +126,10 @@ public class MoviesDataRetriever {
         return recentMovies;
     }
 
+    public Movie[] getFollowedMovies(String username){
+        return optimizeImage(databaseHandler.getFollowedMovies(username));
+    }
+
     public Movie getMovie(int movieId){
         Movie movie = databaseHandler.getMovie(movieId);
         Links[] links = databaseHandler.getLinks(movieId);
@@ -162,7 +166,8 @@ public class MoviesDataRetriever {
     public void removeFollow(int movieId, String username){
         databaseHandler.removeFollow(movieId, username);
     }
+
+    public void incrementViewCount(int movieId){
+        databaseHandler.incrementViewCount(movieId);
+    }
 }
-
-
-

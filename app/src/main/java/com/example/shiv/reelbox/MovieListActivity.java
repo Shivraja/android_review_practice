@@ -81,7 +81,7 @@ public class MovieListActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), i + " ", Toast.LENGTH_LONG).show();
                 */
-                startMoviesActivity(i + 1);
+                startMoviesActivity(movies[i + 1].movieId);
             }
         });
 
@@ -96,19 +96,16 @@ public class MovieListActivity extends AppCompatActivity {
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 //headView.smoothScrollToPosition(i);
                 headView.setImageBitmap(movies[i].headImageBitmap);
-                //      headView.setImageResource(movies[i].headImageId);
                 headName.setText(movies[i].movieName);
                 //      cast1.setImageResource(headImage[(i+4)%16]);
                 //     cast2.setImageResource(headImage[(i+5)%16]);
                 headId = i;
-                // Log.w("ON SCROLL", i + "  " + i1 + "  " + i2);
-                // Toast.makeText(getBaseContext(), "ON SCROLL " + i+"  "+i1+"  "+i2, Toast.LENGTH_SHORT);
             }
         });
         headView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startMoviesActivity(headId);
+                startMoviesActivity(movies[headId].movieId);
             }
         });
     }
@@ -137,6 +134,7 @@ public class MovieListActivity extends AppCompatActivity {
     public void startMoviesActivity(int movieId) {
         Intent moviesActivity = new Intent(this, MovieActivity.class);
         moviesActivity.putExtra("movieId", movieId);
+        moviesData.incrementViewCount(movieId);
         startActivity(moviesActivity);
     }
 }

@@ -17,4 +17,5 @@ public class CONSTANTS {
     final static int HINDI_RECENT = 9;
     final static String USER_NAME = "Raja";
     static Bitmap BACKGROUND_IMAGE = null;
+    static boolean FAVOURITE_ALTERED = false;
 }

@@ -7,5 +7,67 @@
         android:scaleType="centerCrop"
         android:id="@+id/login_signup_background_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:gravity="center"
+        style="@style/Base.Widget.AppCompat.ActionBar.TabBar"
+        android:text="Login"
+        android:fadingEdge="horizontal"
+        android:ellipsize="marquee"
+        android:background="#55000000"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_marginBottom="138dp"
+        android:layout_marginLeft="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:gravity="center"
+        style="@style/Base.Widget.AppCompat.ActionBar.TabBar"
+        android:text="Signup"
+        android:fadingEdge="horizontal"
+        android:ellipsize="marquee"
+        android:background="#55000000"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        android:layout_toEndOf="@+id/button"
+        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/editText"
+        style="@style/Base.Animation.AppCompat.Dialog"
+        android:layout_marginBottom="33dp"
+        android:layout_above="@+id/editText2"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_alignStart="@+id/editText2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText2"
+        android:layout_marginBottom="66dp"
+        android:layout_above="@+id/button"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button" />
+
 </RelativeLayout>

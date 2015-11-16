@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -37,7 +40,6 @@ public class ReviewActivity extends AppCompatActivity {
         backgroundImage.setImageBitmap(CONSTANTS.BACKGROUND_IMAGE);
 
       //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*
         reviewList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -46,22 +48,24 @@ public class ReviewActivity extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                Log.w("REVIEW",i+"");
                 if(i==1){
                     headImage.getLayoutParams().height=0;
-                    headImage.setVisibility(View.INVISIBLE);
                     headImage.setMaxHeight(0);
                     headImage.setMinimumHeight(0);
+                    headImage.setVisibility(View.INVISIBLE);
+                //    headImage.setAnimation(AnimationUtils.loadAnimation(getBaseContext(),android.R.anim.fade_in));
                 }
                 else if(i==0){
                     headImage.setMaxHeight(300);
                     headImage.setMinimumHeight(300);
-                    headImage.setEnabled(true);
                     headImage.getLayoutParams().height=300;
                     headImage.setVisibility(View.VISIBLE);
+                    headImage.setEnabled(true);
+                 //   headImage.setAnimation(AnimationUtils.loadAnimation(getBaseContext(), android.R.anim.fade_out));
                 }
             }
         });
-        */
 
         Intent currentIntent = this.getIntent();
         movieId = currentIntent.getIntExtra("movieId", 1);

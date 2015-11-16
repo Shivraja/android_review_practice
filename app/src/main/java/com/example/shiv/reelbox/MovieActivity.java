@@ -4,13 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
@@ -38,9 +39,10 @@ public class MovieActivity extends AppCompatActivity {
     ImageView favouriteImageView;
     ReviewListAdapter reviewListAdapter;
     LinearLayout links;
-    Toolbar toolbar;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
     static MoviesDataRetriever moviesDataRetriever;
-    int movieId;
+    static int movieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,13 @@ public class MovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent currentIntent = this.getIntent();
+        movieId = currentIntent.getIntExtra("movieId", 1);
+
         if (CONSTANTS.BACKGROUND_IMAGE == null)
             CONSTANTS.BACKGROUND_IMAGE = ImageOptimizer.getCorrespondingBitmap(getResources(), R.drawable.skin_full_page_bgimage_a, 200, 500);
+
         movieName = (TextView) findViewById(R.id.movie_movie_name);
         headImage = (ImageView) findViewById(R.id.movie_head_Image);
         backgroundImage = (ImageView) findViewById(R.id.movie_background_image);
@@ -62,8 +69,12 @@ public class MovieActivity extends AppCompatActivity {
         rating = (RatingBar) findViewById(R.id.movie_rate);
         links = (LinearLayout) findViewById(R.id.links);
 
-        Intent currentIntent = this.getIntent();
-        movieId = currentIntent.getIntExtra("movieId", 1);
+        if(!moviesDataRetriever.isRated(movieId,CONSTANTS.USER_NAME)) {
+            fragmentManager = this.getFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.rating_fragment,new RatingFragment());
+            fragmentTransaction.commit();
+        }
 
         Movie movie = moviesDataRetriever.getMovie(movieId);
         movieName.setText(movie.movieName + " (" + movie.year + ")");
