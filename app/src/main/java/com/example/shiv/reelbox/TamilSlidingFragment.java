@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,28 +11,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
-/**
- * Created by Shiv on 31-Oct-15.
- */
 public class TamilSlidingFragment extends Fragment {
 
+    static Bitmap popularBitmap[];
+    static Bitmap ratedBitmap[];
+    static Bitmap recentBitmap[];
+    static boolean isBitmapCalculated = false;
     MoviesDataRetriever moviesDataRetriever;
     ViewFlipper tamil_popular, tamil_recent, tamil_rated;
     ImageView indicatorImageView[] = new ImageView[5];
     LinearLayout tamil_popular_indicator;
     int headImages[] = {R.drawable.yennaiarindhal_head, R.drawable.anegan_head, R.drawable.darling_head, R.drawable.jilla_head, R.drawable.head_4, R.drawable.jannalooram_head, R.drawable.naveenasaraswathisabatham_head, R.drawable.naiyaandi_head, R.drawable.samar_head, R.drawable.vanayuddham_head, R.drawable.chennaiyilorunaal_head, R.drawable.vanakkamchennai_head, R.drawable.kadal_head, R.drawable.udhayamnh4_head, R.drawable.arambam_head, R.drawable.rajarani_head, R.drawable.vishwaroopam_head, R.drawable.i_head};
 
-    static Bitmap popularBitmap[];
-    static Bitmap ratedBitmap[];
-    static Bitmap recentBitmap[];
-
-    static boolean isBitmapCalculated = false;
-
     public void calculateBitmap() {
         moviesDataRetriever = new MoviesDataRetriever(getContext(), getResources());
-        Movie[] popularMovies = moviesDataRetriever.getTopPopularMovies("Tamil");
-        Movie[] ratedMovies = moviesDataRetriever.getTopRatedMovies("Tamil");
-        Movie[] recentMovies = moviesDataRetriever.getTopRecentMovies("Tamil");
+        MOVIE[] popularMovies = moviesDataRetriever.getTopPopularMovies("Tamil");
+        MOVIE[] ratedMovies = moviesDataRetriever.getTopRatedMovies("Tamil");
+        MOVIE[] recentMovies = moviesDataRetriever.getTopRecentMovies("Tamil");
         popularBitmap = new Bitmap[popularMovies.length];
 
         for (int i = 0; i < popularMovies.length; i++) {
@@ -65,16 +59,9 @@ public class TamilSlidingFragment extends Fragment {
         tamil_recent = (ViewFlipper) view.findViewById(R.id.movie_flipper_tamil_recent);
         tamil_popular_indicator = (LinearLayout) view.findViewById(R.id.tamil_popular_indicator);
 
-        if (isBitmapCalculated == false) {
+        if (!isBitmapCalculated) {
             calculateBitmap();
         }
-
-        tamil_popular.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
-                Log.w("INDICATOR",i+" "+i1+" "+i2+" "+i3+" "+i4+" "+i5+" "+i6+" "+i7);
-            }
-        });
 
         for (int i = 0; i < 5; i++) {
             indicatorImageView[i] = new ImageView(getContext());

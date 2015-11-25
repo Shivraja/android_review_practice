@@ -15,12 +15,12 @@ import android.widget.TextView;
 public class FavouriteMovieListAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
-    Movie[] movies;
+    MOVIE[] movies;
 
     ImageView backgroundImageView, iconImageView;
     TextView movieNameView, languageView, yearView;
 
-    public FavouriteMovieListAdapter(Movie[] movies, Resources resources, Context context) {
+    public FavouriteMovieListAdapter(MOVIE[] movies, Resources resources, Context context) {
 
         this.context = context;
         this.movies = movies;

@@ -12,7 +12,6 @@
         android:background="#000000">
 
         <ImageView
-            android:paddingBottom="5dp"
             android:id="@+id/headimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,28 +19,28 @@
             android:src="@drawable/head_2" />
 
         <TextView
-            android:visibility="invisible"
-            android:fadingEdge="vertical"
-            android:fadingEdgeLength="3dp"
-            android:shadowRadius="3.5"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_alignParentRight="true"
-            android:gravity="end"
             android:id="@+id/head_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
             android:alpha=".8"
             android:background="#000000"
-            android:paddingTop="10dp"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="3dp"
+            android:gravity="end"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:shadowRadius="3.5"
             android:text="Sutrula"
             android:textColor="#ffffff"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
         <!--
         <ImageView
             android:padding="5dp"

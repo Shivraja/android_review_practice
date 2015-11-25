@@ -1,20 +1,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movies_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#101010"
     android:baselineAligned="false"
     android:orientation="vertical"
-    android:id="@+id/movies_activity_layout"
     tools:context="com.example.shiv.reelbox.MovieActivity">
 
     <ImageView
-        android:scaleType="fitXY"
-        android:alpha=".5"
         android:id="@+id/movie_background_image"
-        android:src="@drawable/skin_full_page_bgimage_a"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:alpha=".5"
+        android:scaleType="fitXY"
+        android:src="@drawable/skin_full_page_bgimage_a" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,9 +36,9 @@
                 android:src="@drawable/head_6" />
 
             <RelativeLayout
-                android:paddingLeft="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp">
 
                 <TextView
                     android:id="@+id/movie_movie_name"
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:text="Sutrula \n(2015)"
                     android:textColor="#ffffff"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:text="Language : Tamil"
                     android:textColor="#ffffff"
                     android:textIsSelectable="false"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/favourite_image"
@@ -66,44 +66,47 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
                     android:onClick="addFavourite"
                     android:padding="10dp"
                     android:src="@drawable/ic_favorite_white_24dp" />
             </RelativeLayout>
 
             <View
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:alpha=".5"
                 android:background="#c0c0c0" />
 
             <LinearLayout
                 android:id="@+id/rating_fragment"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
                 android:text="Rating :-"
                 android:textColor="#ffffff"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <RatingBar
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
                 android:id="@+id/movie_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:alpha="0.6"
                 android:isIndicator="true"
                 android:numStars="5"
@@ -113,10 +116,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:alpha=".5"
                 android:background="#c0c0c0" />
 
@@ -130,120 +133,16 @@
                 android:textStyle="bold" />
 
             <HorizontalScrollView
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <LinearLayout
-                    android:id="@+id/movie_casts"
+                    android:id="@+id/movie_cast_fragment"
                     android:layout_width="wrap_content"
                     android:layout_height="90dp"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="90dp"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:id="@+id/imageView1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:onClick="zoomImage"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/rajini" />
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/imageView1"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:alpha="0.8"
-                            android:background="#000000"
-                            android:gravity="center"
-                            android:text="Rajini"
-                            android:textColor="#ffffff" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="90dp"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:onClick="zoomImage"
-                            android:id="@+id/imageView2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/surya_2" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:alpha="0.8"
-                            android:background="#000000"
-                            android:gravity="center"
-                            android:text="Surya"
-                            android:textColor="#ffffff" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="90dp"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:onClick="zoomImage"
-                            android:id="@+id/imageView3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/trisha" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:alpha="0.8"
-                            android:background="#000000"
-                            android:gravity="center"
-                            android:text="Trisha"
-                            android:textColor="#ffffff" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="80dp"
-                        android:layout_height="90dp"
-                        android:padding="5dp">
-
-                        <ImageView
-                            android:onClick="zoomImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/kajal"
-                            android:id="@+id/imageView4"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:alpha="0.8"
-                            android:background="#000000"
-                            android:gravity="center"
-                            android:text="Priya"
-                            android:textColor="#ffffff" />
-                    </RelativeLayout>
-                </LinearLayout>
+                    android:orientation="horizontal" />
             </HorizontalScrollView>
 
             <View
@@ -316,21 +215,20 @@
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:background="#44000000"
+                android:padding="10dp"
                 android:text="Show All Reviews"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
     </ScrollView>
 
     <ImageView
-        android:background="#dd000000"
-        android:src="@drawable/rajini"
-        android:scaleType="center"
+        android:id="@+id/expanded_image"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/expanded_image"
+        android:background="#dd000000"
+        android:scaleType="center"
+        android:src="@drawable/rajini"
         android:visibility="invisible" />
 </FrameLayout>

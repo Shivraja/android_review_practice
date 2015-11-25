@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.shiv.reelbox"
     android:versionCode="2"
-    android:versionName="2"
-    package="com.example.shiv.reelbox" >
+    android:versionName="2">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,55 +13,72 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:parentActivityName=".SlidingPageActivity"
             android:name=".MovieListActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".SlidingPageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SlidingPageActivity"/>
+                android:value=".SlidingPageActivity" />
         </activity>
         <activity
-            android:parentActivityName=".MovieListActivity"
             android:name=".MovieActivity"
-            android:label="@string/title_activity_movies" >
+            android:label="@string/title_activity_movies"
+            android:parentActivityName=".MovieListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.sample" />
+
                 <category android:name="android.intent.category.sample" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MovieListActivity"/>
+                android:value=".MovieListActivity" />
         </activity>
         <activity
-            android:parentActivityName=".MovieActivity"
             android:name=".ReviewActivity"
-            android:label="@string/title_activity_review" >
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".MovieActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MovieActivity"/>
+                android:value=".MovieActivity" />
         </activity>
         <activity
             android:name=".SlidingPageActivity"
             android:label="@string/title_activity_sliding_page"
-            android:theme="@style/MyMaterialTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/MyMaterialTheme"></activity>
         <activity
-            android:name=".LoginSignupActivity"
-            android:label="@string/title_activity_login_signup" >
-        </activity>
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_login_signup"></activity>
         <activity
-            android:parentActivityName=".SlidingPageActivity"
             android:name=".NotificationActivity"
-            android:label="@string/title_activity_notification" >
+            android:label="@string/title_activity_notification"
+            android:parentActivityName=".SlidingPageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SlidingPageActivity"/>
+                android:value=".SlidingPageActivity" />
+        </activity>
+        <activity
+            android:name=".RecommendationActivity"
+            android:label="@string/title_activity_recommendation" />
+        <activity
+            android:name=".FavouriteActivity"
+            android:label="@string/title_activity_favourite" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".StartActivity"
+            android:label="@string/title_activity_start">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

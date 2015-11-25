@@ -17,18 +17,14 @@ import android.widget.ViewFlipper;
  */
 public class HindiSlidingFragment extends Fragment {
 
-    ViewFlipper hindi_popular, hindi_recent, hindi_rated;
-    ImageView indicatorImageView[] = new ImageView[5];
-    LinearLayout hindi_popular_indicator;
-    int headImages[] = {R.drawable.yennaiarindhal_head, R.drawable.anegan_head, R.drawable.darling_head, R.drawable.jilla_head,R.drawable.head_4, R.drawable.jannalooram_head, R.drawable.naveenasaraswathisabatham_head, R.drawable.naiyaandi_head, R.drawable.samar_head, R.drawable.vanayuddham_head, R.drawable.chennaiyilorunaal_head, R.drawable.vanakkamchennai_head, R.drawable.kadal_head, R.drawable.udhayamnh4_head, R.drawable.arambam_head, R.drawable.rajarani_head, R.drawable.vishwaroopam_head, R.drawable.i_head};
-
-  /*  int headImage[] = {R.drawable.head_1,R.drawable.head_2,R.drawable.head_3,R.drawable.head_4,R.drawable.head_5,R.drawable.head_6,R.drawable.head_7,R.drawable.head_8,R.drawable.head_9,R.drawable.head_10,R.drawable.head_abi,R.drawable.head_aranmanai,R.drawable.head_saivam};*/
-
     static Bitmap popularBitmap[] = new Bitmap[5];
     static Bitmap ratedBitmap[] = new Bitmap[5];
     static Bitmap recentBitmap[] = new Bitmap[5];
-
     static boolean isBitmapCalculated = false;
+    ViewFlipper hindi_popular, hindi_recent, hindi_rated;
+    ImageView indicatorImageView[] = new ImageView[5];
+    LinearLayout hindi_popular_indicator;
+    int headImages[] = {R.drawable.yennaiarindhal_head, R.drawable.anegan_head, R.drawable.darling_head, R.drawable.jilla_head, R.drawable.head_4, R.drawable.jannalooram_head, R.drawable.naveenasaraswathisabatham_head, R.drawable.naiyaandi_head, R.drawable.samar_head, R.drawable.vanayuddham_head, R.drawable.chennaiyilorunaal_head, R.drawable.vanakkamchennai_head, R.drawable.kadal_head, R.drawable.udhayamnh4_head, R.drawable.arambam_head, R.drawable.rajarani_head, R.drawable.vishwaroopam_head, R.drawable.i_head};
 
     public void calculateBitmap(){
         int start;
@@ -57,7 +53,7 @@ public class HindiSlidingFragment extends Fragment {
         hindi_recent = (ViewFlipper)view.findViewById(R.id.movie_flipper_hindi_recent);
         hindi_popular_indicator = (LinearLayout)view.findViewById(R.id.hindi_popular_indicator);
 
-        if(isBitmapCalculated == false){
+        if(!isBitmapCalculated){
             calculateBitmap();
         }
 

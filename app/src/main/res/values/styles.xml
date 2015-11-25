@@ -7,7 +7,9 @@
 
     <style name="MyTheme" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionBar">false</item>
     </style>
+
     <style name="customRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/rating_custom_bar</item>
         <item name="android:minHeight">30dip</item>
@@ -19,8 +21,6 @@
     </style>
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

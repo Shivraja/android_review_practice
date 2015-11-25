@@ -3,6 +3,8 @@ package com.example.shiv.reelbox;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,15 +19,15 @@ import android.widget.TextView;
 
 public class MovieListActivity extends AppCompatActivity {
 
-    MoviesDataRetriever moviesData;
     static int headId;
+    static MOVIE[] movies;
+    static MOVIE[] tamilPopular = null, tamilRecent = null, tamilRated = null, others = null;
+    MoviesDataRetriever moviesData;
     NotificationManager notificationManager;
     NotificationCompat.Builder notificationCompat;
-    ImageView headView, cast1, cast2;
+    ImageView headView;
     TextView headName;
-    static Movie[] movies;
     String activityName = null;
-    static Movie[] tamilPopular = null, tamilRecent = null, tamilRated = null, others = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,14 @@ public class MovieListActivity extends AppCompatActivity {
         setTitle(activityName);
         setContentView(R.layout.activity_movie_list);
 
-        if(activityName == null){
+        if (activityName == null) {
             activityName = "Tamil Popular";
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(CONSTANTS.ACTION_BAR_COLOR));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         notificationCompat = new NotificationCompat.Builder(this);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -51,6 +55,7 @@ public class MovieListActivity extends AppCompatActivity {
         headName = (TextView) findViewById(R.id.head_name);
 
         ListView listView = (ListView) findViewById(R.id.list);
+
         if (activityName.matches("Tamil Popular")) {
             if (tamilPopular == null)
                 tamilPopular = moviesData.getPopularMovies("Tamil");
@@ -68,13 +73,15 @@ public class MovieListActivity extends AppCompatActivity {
                 others = moviesData.getAllMovies();
             movies = others;
         }
+
         MovieListAdapter movieListAdapter = new MovieListAdapter(movies, getResources(), this);
         listView.setAdapter(movieListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               /* notificationCompat.setSmallIcon(android.R.drawable.sym_def_app_icon);
+               /*
+                notificationCompat.setSmallIcon(android.R.drawable.sym_def_app_icon);
                 notificationCompat.setContentTitle("List View Practice");
                 notificationCompat.setContentText("The User Pressed " + i);
                 notificationManager.notify(1, notificationCompat.build());
@@ -108,6 +115,17 @@ public class MovieListActivity extends AppCompatActivity {
                 startMoviesActivity(movies[headId].movieId);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences(CONSTANTS.PREFERENCES, MODE_PRIVATE);
+        if (sharedPreferences.getString("username", "NULL").matches("NULL")) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            finish();
+            startActivity(intent);
+        }
     }
 
     @Override

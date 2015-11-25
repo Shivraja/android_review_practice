@@ -6,11 +6,11 @@
     android:orientation="vertical"
     tools:context="com.example.shiv.reelbox.ReviewActivity">
     <ImageView
-        android:scaleType="matrix"
-        android:src="@drawable/skin_full_page_bgimage_a"
         android:id="@+id/review_background_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scaleType="matrix"
+        android:src="@drawable/skin_full_page_bgimage_a" />
 
     <ImageView
         android:id="@+id/review_head_Image"
@@ -21,22 +21,24 @@
         android:src="@drawable/head_4" />
 
     <TextView
+        android:id="@+id/review_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/review_head_Image"
         android:padding="10dp"
         android:text="Reviews :-"
         android:textColor="#ffffff"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_above="@+id/review_review_list_view"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/review_review_list_view"
         android:layout_width="match_parent"
-        android:layout_height="315dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/review_name" />
 
 </RelativeLayout>

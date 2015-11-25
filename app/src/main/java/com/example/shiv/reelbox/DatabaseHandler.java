@@ -14,22 +14,22 @@ import java.util.List;
 /**
  * Created by Shiv on 07-Nov-15.
  */
-public class MovieDatabaseHandler extends SQLiteOpenHelper {
+public class DatabaseHandler extends SQLiteOpenHelper {
 
-    Resources resources;
     static String DATABASE_NAME = "movies.db";
-    static int DATABASE_VERSION = 5;
+    static int DATABASE_VERSION = 11;
     static String MOVIE_TABLE = "movies";
     static String CASTS_TABLE = "casts";
-    static String PERSONALITIES_TABLE = "personalities";
+    static String CELEBRITIES_TABLE = "celebrities";
     static String LINKS_TABLE = "links";
     static String RATING_TABLE = "rating";
     static String FOLLOW_TABLE = "follow";
     static String REVIEW_TABLE = "reviews";
     static String USER_TABLE = "user";
     static String REVIEW_LIKE_TABLE = "reviewlike";
+    Resources resources;
 
-    public MovieDatabaseHandler(Context context, Resources resources) {
+    public DatabaseHandler(Context context, Resources resources) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.resources = resources;
     }
@@ -38,6 +38,7 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         initMovies(sqLiteDatabase);
         initReviews(sqLiteDatabase);
         initUsers(sqLiteDatabase);
+        initCelebrities(sqLiteDatabase);
     }
 
     public void initMovies(SQLiteDatabase sqLiteDatabase) {
@@ -61,16 +62,20 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
                 R.drawable.head_4, R.drawable.jannalooram_head, R.drawable.naveenasaraswathisabatham_head, R.drawable.naiyaandi_head, R.drawable.samar_head, R.drawable.vanayuddham_head, R.drawable.chennaiyilorunaal_head, R.drawable.vanakkamchennai_head, R.drawable.kadal_head, R.drawable.udhayamnh4_head, R.drawable.arambam_head, R.drawable.rajarani_head, R.drawable.vishwaroopam_head, R.drawable.i_head};
 
         for (int i = 0; i < 17; i++) {
-            Movie temp = new Movie();
+            MOVIE temp = new MOVIE();
             temp.movieId = i;
             temp.movieName = movieName[i];
             temp.rating = ((int) (Math.random() * 10)) % 5 + 1;
             temp.year = 2000 + (int) (Math.random() * 10) % 15;
             temp.language = "Tamil";
-            temp.casts = casts;
+            temp.casts = getCasts(sqLiteDatabase, temp.movieId);
             temp.links = links;
             temp.iconImageId = iconImage[i];
             temp.headImageId = headImage[i];
+
+            for (int j = 0; j < 5; j++) {
+                insertIntoCastsTable(sqLiteDatabase, temp.movieId, "None", ((j + i) % 7) + 1);
+            }
 
             for (int j = 0; j < temp.links.size(); j++) {
                 insertIntoLinksTable(sqLiteDatabase, temp.movieId, "Trailor", temp.links.get(j));
@@ -82,12 +87,12 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
 
     public void initReviews(SQLiteDatabase sqLiteDatabase) {
         int sampleUserImage[] = {R.drawable.karthi, R.drawable.surya, R.drawable.trisha, R.drawable.rajini, R.drawable.rajini_2, R.drawable.kajal};
-        String sampleUserId[] = {"Karthi", "Surya", "Trisha", "Rajini", "Bhaasha","Kaajal"};
-        String sampleReviews[] = {"The Movie is nice, but the climax is okay", "Thai herbs have increasingly gained public attention.Recently, there are a number of Thai herb websites. Each website", "Has similar information but quite different details. For example,some webpages do not provide information indicating which part", "of Thai herb can treat the specified symptom. In order to collect more complete Thai herb information, we have developed", "information extraction process to extract Thai herb information from multiple websites.","Return the class name of this object to be used for accessibility purposes. Subclasses should only override this if they are implementing something that should be seen as a completely new class of view when used by accessibility, unrelated to the class it is deriving from"};
+        String sampleUserId[] = {"Karthi", "Surya", "Trisha", "Rajini", "Bhaasha", "Kaajal"};
+        String sampleReviews[] = {"The MOVIE is nice, but the climax is okay", "Thai herbs have increasingly gained public attention.Recently, there are a number of Thai herb websites. Each website", "Has similar information but quite different details. For example,some webpages do not provide information indicating which part", "of Thai herb can treat the specified symptom. In order to collect more complete Thai herb information, we have developed", "information extraction process to extract Thai herb information from multiple websites.", "Return the class name of this object to be used for accessibility purposes. Subclasses should only override this if they are implementing something that should be seen as a completely new class of view when used by accessibility, unrelated to the class it is deriving from"};
 
         int i;
         for (i = 0; i < 200; i++) {
-            Review temp = new Review();
+            REVIEW temp = new REVIEW();
             temp.movieId = (i % 17 + 1);
             temp.likes = (int) (Math.random() * 100);
             temp.unlikes = (int) (Math.random() * 100);
@@ -95,7 +100,7 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
             temp.userImage = sampleUserImage[x];
             temp.userId = sampleUserId[x];
             temp.review = sampleReviews[x];
-            temp.time = i+"-10-2015";
+            temp.time = i + "-10-2015";
             insertIntoReviewTable(sqLiteDatabase, i + 1, temp.userId, (i % 13) + 1, temp.review, temp.time, temp.likes, temp.unlikes);
         }
 
@@ -105,12 +110,78 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public void initCelebrities(SQLiteDatabase sqLiteDatabase) {
+        int imageId[] = {R.drawable.rajini, R.drawable.rajini_2, R.drawable.unknown, R.drawable.kajal, R.drawable.karthi, R.drawable.surya, R.drawable.surya_2};
+        int personId[] = {1, 2, 3, 4, 5, 6, 7};
+        String name[] = {"Rajini", "RajiniKanth", "Priya", "Kajal", "Karthi", "Surya", "Singam"};
+        for (int i = 0; i < 7; i++) {
+            insertIntoCelebritiesTable(sqLiteDatabase, personId[i], name[i], imageId[i] + "");
+        }
+    }
+
+    public void insertIntoCastsTable(SQLiteDatabase sqLiteDatabase, int movieId, String role, int personId) {
+        ContentValues values = new ContentValues();
+        values.put("movieId", movieId);
+        values.put("role", role);
+        values.put("personId", personId);
+        sqLiteDatabase.insert(CASTS_TABLE, null, values);
+    }
+
+    public void insertIntoCelebritiesTable(SQLiteDatabase sqLiteDatabase, int personId, String personName, String imageURL) {
+        ContentValues values = new ContentValues();
+        values.put("personId", personId);
+        values.put("name", personName);
+        values.put("imageURL", imageURL);
+        sqLiteDatabase.insert(CELEBRITIES_TABLE, null, values);
+    }
+
     public void insertIntoLinksTable(SQLiteDatabase sqLiteDatabase, int movieId, String linkType, String linkURL) {
         ContentValues values = new ContentValues();
         values.put("movieId", movieId);
         values.put("linkType", linkType);
         values.put("linkURL", linkURL);
         sqLiteDatabase.insert(LINKS_TABLE, null, values);
+    }
+
+    public CASTS[] getCasts(SQLiteDatabase sqLiteDatabase, int movieId) {
+        String query = "SELECT movieId, name, role, imageURL FROM " + CASTS_TABLE + " , " + CELEBRITIES_TABLE + " WHERE movieId=" + movieId + " and " + CASTS_TABLE + ".personId = " + CELEBRITIES_TABLE + ".personId" + ";";
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        CASTS[] casts = new CASTS[cursor.getCount()];
+        int index = 0;
+        if (cursor.moveToFirst()) {
+            do {
+                casts[index] = new CASTS();
+                casts[index].movieId = cursor.getInt(0);
+                casts[index].personName = cursor.getString(1);
+                casts[index].role = cursor.getString(2);
+                casts[index].imageId = Integer.parseInt(cursor.getString(3));
+                index++;
+            } while (cursor.moveToNext());
+        }
+        return casts;
+    }
+
+    public CASTS[] getCasts(int movieId) {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+//        sqLiteDatabase.execSQL("CREATE TABLE " + CASTS_TABLE + " ( " + "movieId int," + "role varchar," + "personId int" + ")");
+//        sqLiteDatabase.execSQL("CREATE TABLE " + CELEBRITIES_TABLE + " ( " + "personId int," + "name varchar," + "imageURL varchar" + ")");
+        String query = "SELECT movieId, name, role, imageURL FROM " + CASTS_TABLE + " , " + CELEBRITIES_TABLE + " WHERE movieId=" + movieId + " and " + CASTS_TABLE + ".personId = " + CELEBRITIES_TABLE + ".personId" + ";";
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        CASTS[] casts = new CASTS[cursor.getCount()];
+        int index = 0;
+        if (cursor.moveToFirst()) {
+            do {
+                casts[index] = new CASTS();
+                casts[index].movieId = cursor.getInt(0);
+                casts[index].personName = cursor.getString(1);
+                casts[index].role = cursor.getString(2);
+                casts[index].imageId = Integer.parseInt(cursor.getString(3));
+                index++;
+            } while (cursor.moveToNext());
+        }
+        return casts;
     }
 
     public void insertIntoMovieTable(SQLiteDatabase sqLiteDatabase, int movieId, String movieName, int year, String date, String language, int viewcount, float rate, String iconImageURL, String headImageURL) {
@@ -122,7 +193,7 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         values.put("date", date);
         values.put("language", language);
         values.put("viewcount", viewcount);
-        values.put("rate",rate);
+        values.put("rate", rate);
         values.put("iconImageURL", iconImageURL);
         values.put("headImageURL", headImageURL);
         sqLiteDatabase.insert(MOVIE_TABLE, null, values);
@@ -133,22 +204,22 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         values.put("reviewId", reviewId);
         values.put("movieId", movieId);
         values.put("username", username);
-        values.put("review", review);
-        values.put("time",time);
+        values.put("REVIEW", review);
+        values.put("time", time);
         values.put("likes", likes);
         values.put("unlikes", unlikes);
         sqLiteDatabase.insert(REVIEW_TABLE, null, values);
     }
 
-    public Movie[] getMovies() {
+    public MOVIE[] getMovies() {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + MOVIE_TABLE + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -164,36 +235,36 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie getMovie(int movieId){
-        Log.w("DATABASE","getMovie");
+    public MOVIE getMovie(int movieId) {
+        Log.w("DATABASE", "getMovie");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MOVIE_TABLE +" WHERE movieId = "+movieId+";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " WHERE movieId = " + movieId + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie movie = new Movie();
+        MOVIE MOVIE = new MOVIE();
         if (cursor.moveToFirst()) {
-                movie.movieId = cursor.getInt(0);
-                movie.movieName = cursor.getString(1);
-                movie.year = cursor.getInt(2);
-                movie.date = cursor.getString(3);
-                movie.language = cursor.getString(4);
-                movie.viewCount = cursor.getInt(5);
-                movie.iconImageId = Integer.parseInt(cursor.getString(7));
-                movie.headImageId = Integer.parseInt(cursor.getString(8));
-                movie.rating = getMovieRating(movie.movieId);
+            MOVIE.movieId = cursor.getInt(0);
+            MOVIE.movieName = cursor.getString(1);
+            MOVIE.year = cursor.getInt(2);
+            MOVIE.date = cursor.getString(3);
+            MOVIE.language = cursor.getString(4);
+            MOVIE.viewCount = cursor.getInt(5);
+            MOVIE.iconImageId = Integer.parseInt(cursor.getString(7));
+            MOVIE.headImageId = Integer.parseInt(cursor.getString(8));
+            MOVIE.rating = getMovieRating(MOVIE.movieId);
         }
-        return movie;
+        return MOVIE;
     }
 
-    public Movie[] getTopPopularMovies(String language) {
-        Log.w("DATABASE","getTopPopularMovies");
+    public MOVIE[] getTopPopularMovies(String language) {
+        Log.w("DATABASE", "getTopPopularMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MOVIE_TABLE +" where language='"+language+"' ORDER BY viewcount DESC LIMIT 5" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " where language='" + language + "' ORDER BY viewcount DESC LIMIT 5" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -209,16 +280,16 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie[] getPopularMovies(String language) {
-        Log.w("DATABASE","getPopularMovies");
+    public MOVIE[] getPopularMovies(String language) {
+        Log.w("DATABASE", "getPopularMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MOVIE_TABLE +" where language='"+language+ "' ORDER BY viewcount DESC" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " where language='" + language + "' ORDER BY viewcount DESC" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -234,16 +305,16 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie[] getTopRatedMovies(String language) {
-        Log.w("DATABASE","getTopRatedMovies");
+    public MOVIE[] getTopRatedMovies(String language) {
+        Log.w("DATABASE", "getTopRatedMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM "+ MOVIE_TABLE +" where language='"+language+ "' ORDER BY rate DESC LIMIT 5" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " where language='" + language + "' ORDER BY rate DESC LIMIT 5" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -259,16 +330,16 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie[] getRatedMovies(String language) {
-        Log.w("DATABASE","getRatedMovies");
+    public MOVIE[] getRatedMovies(String language) {
+        Log.w("DATABASE", "getRatedMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM "+ MOVIE_TABLE +" where language='"+language+ "' ORDER BY rate DESC" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " where language='" + language + "' ORDER BY rate DESC" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -284,16 +355,16 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie[] getTopRecentMovies(String language) {
-        Log.w("DATABASE","getTopRecentMovies");
+    public MOVIE[] getTopRecentMovies(String language) {
+        Log.w("DATABASE", "getTopRecentMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM "+ MOVIE_TABLE +" where language='"+language+ "' ORDER BY date DESC LIMIT 5" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " where language='" + language + "' ORDER BY date DESC LIMIT 5" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -309,16 +380,16 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie[] getRecentMovies(String language) {
-        Log.w("DATABASE","getRecentMovies");
+    public MOVIE[] getRecentMovies(String language) {
+        Log.w("DATABASE", "getRecentMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MOVIE_TABLE +" where language='"+language+ "' ORDER BY date DESC" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " where language='" + language + "' ORDER BY date DESC" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -334,16 +405,17 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
-    public Movie[] getFollowedMovies(String username) {
-        Log.w("DATABASE","getFollowedMovies");
+    public MOVIE[] getFollowedMovies(String username) {
+        Log.w("DATABASE", "getFollowedMovies");
+
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM "+ MOVIE_TABLE +" WHERE movieId IN "+"("+"SELECT movieId FROM "+FOLLOW_TABLE+" WHERE username='"+username+"'"+" )"+" ORDER BY date DESC" +";";
+        String query = "SELECT * FROM " + MOVIE_TABLE + " WHERE movieId IN " + "(" + "SELECT movieId FROM " + FOLLOW_TABLE + " WHERE username='" + username + "'" + " )" + " ORDER BY date DESC" + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Movie[] movies = new Movie[cursor.getCount()];
+        MOVIE[] movies = new MOVIE[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                movies[index] = new Movie();
+                movies[index] = new MOVIE();
                 movies[index].movieId = cursor.getInt(0);
                 movies[index].movieName = cursor.getString(1);
                 movies[index].year = cursor.getInt(2);
@@ -356,38 +428,40 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
                 index++;
             } while (cursor.moveToNext());
         }
+        sqLiteDatabase.close();
         return movies;
     }
 
-    public Links[] getLinks(int movieId){
-        Log.w("DATABASE","getLinks");
+    public LINKS[] getLinks(int movieId) {
+        Log.w("DATABASE", "getLinks");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + LINKS_TABLE +" WHERE movieId="+movieId+";";
+        String query = "SELECT * FROM " + LINKS_TABLE + " WHERE movieId=" + movieId + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Links[] links = new Links[cursor.getCount()];
+        LINKS[] links = new LINKS[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                links[index] = new Links();
+                links[index] = new LINKS();
                 links[index].movieId = cursor.getInt(0);
                 links[index].linkType = cursor.getString(1);
                 links[index].linkURL = cursor.getString(2);
                 index++;
             } while (cursor.moveToNext());
         }
+        sqLiteDatabase.close();
         return links;
     }
 
-    public Review[] getReviews(int movieId){
-        Log.w("DATABASE","getReviews");
+    public REVIEW[] getReviews(int movieId) {
+        Log.w("DATABASE", "getReviews");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + REVIEW_TABLE +" WHERE movieId= "+movieId+";";
+        String query = "SELECT * FROM " + REVIEW_TABLE + " WHERE movieId= " + movieId + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        Review[] reviews = new Review[cursor.getCount()];
+        REVIEW[] reviews = new REVIEW[cursor.getCount()];
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                reviews[index] = new Review();
+                reviews[index] = new REVIEW();
                 reviews[index].reviewId = cursor.getInt(0);
                 reviews[index].userId = cursor.getString(1);
                 reviews[index].movieId = cursor.getInt(2);
@@ -397,15 +471,17 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
                 index++;
             } while (cursor.moveToNext());
         }
+        sqLiteDatabase.close();
         return reviews;
     }
 
-    public void incrementViewCount(int movieId){
-        Log.w("DATABASE","increment view count "+movieId);
+    public void incrementViewCount(int movieId) {
+        Log.w("DATABASE", "increment view count " + movieId);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("UPDATE "+MOVIE_TABLE+" SET viewcount=viewcount+1 where movieId="+movieId+";");
+        sqLiteDatabase.execSQL("UPDATE " + MOVIE_TABLE + " SET viewcount=viewcount+1 where movieId=" + movieId + ";");
         sqLiteDatabase.close();
     }
+
     public void addReviewStatus(int reviewId, String username, int movieId, String status) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -432,8 +508,11 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + RATING_TABLE + " WHERE movieId=" + movieId + " and username='" + username + "';";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        if (cursor.getCount() >= 1)
+        if (cursor.getCount() >= 1) {
+            sqLiteDatabase.close();
             return true;
+        }
+        sqLiteDatabase.close();
         return false;
     }
 
@@ -441,12 +520,15 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + FOLLOW_TABLE + " WHERE movieId=" + movieId + " and username='" + username + "';";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        if (cursor.getCount() >= 1)
+        if (cursor.getCount() >= 1) {
+            sqLiteDatabase.close();
             return true;
+        }
+        sqLiteDatabase.close();
         return false;
     }
 
-    public void addFollow(int movieId, String username){
+    public void addFollow(int movieId, String username) {
         CONSTANTS.FAVOURITE_ALTERED = true;
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -458,12 +540,12 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
 
     public float getMovieRating(int movieId) {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT AVG(rate) FROM " + RATING_TABLE + ";";
+        String query = "SELECT AVG(rate) FROM " + RATING_TABLE + " WHERE movieId=" + movieId + " ;";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             return cursor.getFloat(0);
         }
-        return -1;
+        return 0;
     }
 
     public void addMovieRating(int movieId, String username, float rate) {
@@ -476,23 +558,23 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void removeFollow(int movieId, String username){
+    public void removeFollow(int movieId, String username) {
         CONSTANTS.FAVOURITE_ALTERED = true;
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(FOLLOW_TABLE," movieId="+movieId+" and username='"+username+"' ",null);
+        sqLiteDatabase.delete(FOLLOW_TABLE, " movieId=" + movieId + " and username='" + username + "' ", null);
+        sqLiteDatabase.close();
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE " + MOVIE_TABLE + " ( " + "movieId int," + "movieName varchar," + "year int," + "date varchar," + "language varchar," + "viewcount int," +"rate float,"+ "iconImageURL varchar," + "headImageURL varchar" + ")"); // make movie id as auto increment
+        sqLiteDatabase.execSQL("CREATE TABLE " + MOVIE_TABLE + " ( " + "movieId int," + "movieName varchar," + "year int," + "date varchar," + "language varchar," + "viewcount int," + "rate float," + "iconImageURL varchar," + "headImageURL varchar" + ")"); // make movie id as auto increment
         sqLiteDatabase.execSQL("CREATE TABLE " + CASTS_TABLE + " ( " + "movieId int," + "role varchar," + "personId int" + ")");
-        sqLiteDatabase.execSQL("CREATE TABLE " + PERSONALITIES_TABLE + " ( " + "personId int," + "name varchar," + "imageURL varchar" + ")");
+        sqLiteDatabase.execSQL("CREATE TABLE " + CELEBRITIES_TABLE + " ( " + "personId int," + "name varchar," + "imageURL varchar" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + LINKS_TABLE + " ( " + "movieId int," + "linkType varchar," + "linkURL varchar" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + RATING_TABLE + " ( " + "movieId int," + "username varchar," + "rate float" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + USER_TABLE + " ( " + "username varchar," + "name varchar," + "password varchar," + "emailId int," + "phone varchar," + "imageURL varchar" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + FOLLOW_TABLE + " ( " + "username varchar," + "movieId int" + ")");
-        sqLiteDatabase.execSQL("CREATE TABLE " + REVIEW_TABLE + " ( " + "reviewId int," + "username varchar," + "movieId int," + "review varchar," +" time varchar," +"likes int," + "unlikes int" + ")");
+        sqLiteDatabase.execSQL("CREATE TABLE " + REVIEW_TABLE + " ( " + "reviewId int," + "username varchar," + "movieId int," + "REVIEW varchar," + " time varchar," + "likes int," + "unlikes int" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + REVIEW_LIKE_TABLE + " ( " + "reviewId int," + "username varchar," + "movieId int," + " status varchar" + ")");
         Log.w("DATABASE", "Tables created");
         insertValues(sqLiteDatabase);
@@ -503,7 +585,7 @@ public class MovieDatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MOVIE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CASTS_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PERSONALITIES_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CELEBRITIES_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + LINKS_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RATING_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
