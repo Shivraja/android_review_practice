@@ -20,8 +20,8 @@ import android.widget.TextView;
 public class MovieListActivity extends AppCompatActivity {
 
     static int headId;
-    static MOVIEs[] movies;
-    static MOVIEs[] tamilPopular = null, tamilRecent = null, tamilRated = null, others = null;
+    static MOVIE[] movies;
+    static MOVIE[] tamilPopular = null, tamilRecent = null, tamilRated = null, others = null;
     MoviesDataRetriever moviesData;
     NotificationManager notificationManager;
     NotificationCompat.Builder notificationCompat;

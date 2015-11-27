@@ -25,9 +25,9 @@ public class TamilSlidingFragment extends Fragment {
 
     public void calculateBitmap() {
         moviesDataRetriever = new MoviesDataRetriever(getContext(), getResources());
-        MOVIEs[] popularMovies = moviesDataRetriever.getTopPopularMovies("Tamil");
-        MOVIEs[] ratedMovies = moviesDataRetriever.getTopRatedMovies("Tamil");
-        MOVIEs[] recentMovies = moviesDataRetriever.getTopRecentMovies("Tamil");
+        MOVIE[] popularMovies = moviesDataRetriever.getTopPopularMovies("Tamil");
+        MOVIE[] ratedMovies = moviesDataRetriever.getTopRatedMovies("Tamil");
+        MOVIE[] recentMovies = moviesDataRetriever.getTopRecentMovies("Tamil");
         popularBitmap = new Bitmap[popularMovies.length];
 
         for (int i = 0; i < popularMovies.length; i++) {

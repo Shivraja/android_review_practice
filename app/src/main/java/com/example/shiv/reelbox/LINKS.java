@@ -1,6 +1,6 @@
 package com.example.shiv.reelbox;
 
-public class LINKSs {
+public class LINKS {
     int movieId;
     String linkType;
     String linkURL;

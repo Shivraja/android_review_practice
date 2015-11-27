@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 public class MovieActivity extends AppCompatActivity {
 
-    static CASTSs[] casts;
+    static CASTS[] casts;
     static MoviesDataRetriever moviesDataRetriever;
     static int movieId;
     TextView movieName;
@@ -82,7 +82,7 @@ public class MovieActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
 
-        MOVIEs movie = moviesDataRetriever.getMovie(movieId);
+        MOVIE movie = moviesDataRetriever.getMovie(movieId);
         movieName.setText(movie.movieName + " (" + movie.year + ")");
         headImage.setImageBitmap(movie.headImageBitmap);
         language.setText("Language : " + movie.language);

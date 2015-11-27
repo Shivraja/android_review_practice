@@ -14,14 +14,14 @@ import android.widget.Toast;
  * Created by Shiv on 22-Oct-15.
  */
 public class ReviewListAdapter extends BaseAdapter {
-    REVIEWs reviews[];
+    REVIEW reviews[];
     Context context;
     TextView userName, likes, unlikes, review;
     ImageView userImage;
     LayoutInflater layoutInflater;
     ImageView reviewLike, reviewUnlike;
 
-    ReviewListAdapter(REVIEWs reviews[], Context context) {
+    ReviewListAdapter(REVIEW reviews[], Context context) {
         this.reviews = reviews;
         this.context = context;
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

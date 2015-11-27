@@ -14,14 +14,14 @@ public class MoviesDataRetriever {
     static Map<Integer, Bitmap> headImageMap = new HashMap<>();
     static Map<Integer, Bitmap> iconImageMap = new HashMap<>();
     static Map<Integer, Bitmap> castImageMap = new HashMap<>();
-    static Map<Integer, MOVIEs> movieMap = new HashMap<>();
+    static Map<Integer, MOVIE> movieMap = new HashMap<>();
     static Map<Integer, String> reviewMap = new HashMap<>();
-    static MOVIEs[] topPopularMovies = null;
-    static MOVIEs[] popularMovies = null;
-    static MOVIEs[] topRatedMovies = null;
-    static MOVIEs[] ratedMovies = null;
-    static MOVIEs[] topRecentMovies = null;
-    static MOVIEs[] recentMovies = null;
+    static MOVIE[] topPopularMovies = null;
+    static MOVIE[] popularMovies = null;
+    static MOVIE[] topRatedMovies = null;
+    static MOVIE[] ratedMovies = null;
+    static MOVIE[] topRecentMovies = null;
+    static MOVIE[] recentMovies = null;
     static DatabaseHandler databaseHandler;
     Resources resources;
     Context context;
@@ -57,9 +57,9 @@ public class MoviesDataRetriever {
 
     }
 
-    public MOVIEs[] optimizeImage(MOVIEs[] movies) {
+    public MOVIE[] optimizeImage(MOVIE[] movies) {
         int size = movies.length;
-        LINKSs[] links;
+        LINKS[] links;
         for (int i = 0; i < size; i++) {
             movies[i].iconImageBitmap = getOptimisedIconImage(movies[i].iconImageId);
             movies[i].headImageBitmap = getOptimisedHeadImage(movies[i].headImageId);
@@ -67,57 +67,57 @@ public class MoviesDataRetriever {
         return movies;
     }
 
-    public MOVIEs[] getTopPopularMovies(String language) {
+    public MOVIE[] getTopPopularMovies(String language) {
         if (topPopularMovies == null) {
             topPopularMovies = optimizeImage(databaseHandler.getTopPopularMovies(language));
         }
         return topPopularMovies;
     }
 
-    public MOVIEs[] getPopularMovies(String language) {
+    public MOVIE[] getPopularMovies(String language) {
         if (popularMovies == null) {
             popularMovies = optimizeImage(databaseHandler.getPopularMovies(language));
         }
         return popularMovies;
     }
 
-    public MOVIEs[] getTopRatedMovies(String language) {
+    public MOVIE[] getTopRatedMovies(String language) {
         if (topRatedMovies == null) {
             topRatedMovies = optimizeImage(databaseHandler.getTopRatedMovies(language));
         }
         return topRatedMovies;
     }
 
-    public MOVIEs[] getRatedMovies(String language) {
+    public MOVIE[] getRatedMovies(String language) {
         if (ratedMovies == null) {
             ratedMovies = optimizeImage(databaseHandler.getRatedMovies(language));
         }
         return ratedMovies;
     }
 
-    public MOVIEs[] getTopRecentMovies(String language) {
+    public MOVIE[] getTopRecentMovies(String language) {
         if (topRecentMovies == null) {
             topRecentMovies = optimizeImage(databaseHandler.getTopRecentMovies(language));
         }
         return topRecentMovies;
     }
 
-    public MOVIEs[] getRecentMovies(String language) {
+    public MOVIE[] getRecentMovies(String language) {
         if (recentMovies == null) {
             recentMovies = optimizeImage(databaseHandler.getRecentMovies(language));
         }
         return recentMovies;
     }
 
-    public MOVIEs[] getFollowedMovies(String username) {
+    public MOVIE[] getFollowedMovies(String username) {
         return optimizeImage(databaseHandler.getFollowedMovies(username));
     }
 
-    public MOVIEs getMovie(int movieId) {
+    public MOVIE getMovie(int movieId) {
         if(movieMap.containsKey(movieId))
             return movieMap.get(movieId);
-        MOVIEs MOVIE = databaseHandler.getMovie(movieId);
-        LINKSs[] links = databaseHandler.getLinks(movieId);
+        MOVIE MOVIE = databaseHandler.getMovie(movieId);
+        LINKS[] links = databaseHandler.getLinks(movieId);
         List<String> listLinks = new ArrayList();
 
         for (int j = 0; j < links.length; j++) {
@@ -125,7 +125,7 @@ public class MoviesDataRetriever {
         }
 
         MOVIE.links = listLinks;
-        CASTSs casts[] = databaseHandler.getCasts(movieId);
+        CASTS casts[] = databaseHandler.getCasts(movieId);
         int size = casts.length;
         for (int i = 0; i < size; i++) {
             casts[i].imageBitmap = getOptimisedCastImage(casts[i].imageId);
@@ -138,7 +138,7 @@ public class MoviesDataRetriever {
         return MOVIE;
     }
 
-    public MOVIEs[] getAllMovies() {
+    public MOVIE[] getAllMovies() {
         return getRecentMovies("Tamil"); // Just a temporary one
     }
 
@@ -162,8 +162,8 @@ public class MoviesDataRetriever {
         databaseHandler.removeFollow(movieId, username);
     }
 
-    public CASTSs[] getCasts(int movieId) {
-        CASTSs casts[] = databaseHandler.getCasts(movieId);
+    public CASTS[] getCasts(int movieId) {
+        CASTS casts[] = databaseHandler.getCasts(movieId);
         int size = casts.length;
         for (int i = 0; i < size; i++) {
             casts[i].imageBitmap = getOptimisedCastImage(casts[i].imageId);
@@ -176,7 +176,7 @@ public class MoviesDataRetriever {
             return reviewMap.get(movieId);
         }
         String userReview;
-        REVIEWs review = databaseHandler.getReview(movieId, username);
+        REVIEW review = databaseHandler.getReview(movieId, username);
         if(review==null)
             userReview =  "-1";
         else
