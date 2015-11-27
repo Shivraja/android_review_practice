@@ -38,7 +38,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp">
+                android:paddingLeft="10dp">
 
                 <TextView
                     android:id="@+id/movie_movie_name"
@@ -82,13 +82,52 @@
                 android:layout_marginTop="10dp"
                 android:alpha=".5"
                 android:background="#c0c0c0" />
-
             <LinearLayout
                 android:id="@+id/rating_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
+            <LinearLayout
+
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="About :-"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:background="#22000000"
+                    android:textColor="#ececec"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp"
+                    android:textSize="15dp"
+                    android:text="This is the Upcoming movie Released by Sun Network and its associatives. This film is contrubuted by Vijay Surya and his fellows. The film is panned to release for Pongal \n\nDirector :  Manirathnam\n"
+                    android:id="@+id/movie_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:alpha=".5"
+                android:background="#c0c0c0" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,15 +217,15 @@
                 android:alpha=".5"
                 android:background="#c0c0c0" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/movie_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-
-                    android:layout_width="match_parent"
+                    android:id="@+id/your_review_tag"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="Your Review :-"
@@ -194,21 +233,61 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/user_review"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/review_delete_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Your Review"
-                    android:paddingLeft="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@android:drawable/ic_menu_delete" />
+
+                <ImageView
+                    android:alpha=".7"
+                    android:id="@+id/review_edit_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toLeftOf="@id/review_delete_button"
+                    android:src="@drawable/ic_notifications_white_24dp" />
+
+                <Button
+                    android:id="@+id/review_post_button"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:background="#44000000"
+                    android:text="POST"
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@+id/review_submit_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="SubmitReview"
-                    android:text="SUBMIT REVIEW" />
-            </LinearLayout>
+                    android:id="@+id/review_cancel_button"
+                    android:layout_toLeftOf="@id/review_post_button"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:background="#44000000"
+                    android:text="Cancel"
+                    android:textColor="#ffffff" />
+
+
+                <EditText
+                    android:id="@+id/user_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="117dp"
+                    android:layout_below="@id/your_review_tag"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#11000000"
+                    android:gravity="start"
+                    android:hint="Write Your Review Here"
+                    android:padding="10dp"
+                    android:textColor="#ffffff" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/showReviews"

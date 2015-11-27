@@ -29,7 +29,7 @@ public class ReviewActivity extends AppCompatActivity {
         reviewList = (ListView)findViewById(R.id.review_review_list_view);
 
         ReviewDataRetriever reviewDataRetriever = new ReviewDataRetriever(this,getResources());
-        REVIEW reviews[] = reviewDataRetriever.getReviews(movieId);
+        REVIEWs reviews[] = reviewDataRetriever.getReviews(movieId);
         reviewListAdapter = new ReviewListAdapter(reviews, this);
         reviewList.setAdapter(reviewListAdapter);
         if (CONSTANTS.BACKGROUND_IMAGE == null)
@@ -63,7 +63,7 @@ public class ReviewActivity extends AppCompatActivity {
         */
         Intent currentIntent = this.getIntent();
         movieId = currentIntent.getIntExtra("movieId", 1);
-        MOVIE MOVIE = new MoviesDataRetriever(this, getResources()).getMovie(movieId);
+        MOVIEs MOVIE = new MoviesDataRetriever(this, getResources()).getMovie(movieId);
         setTitle(MOVIE.movieName);
         headImage.setImageBitmap(MOVIE.headImageBitmap);
     }

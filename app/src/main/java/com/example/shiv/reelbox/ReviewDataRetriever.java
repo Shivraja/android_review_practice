@@ -16,8 +16,8 @@ public class ReviewDataRetriever {
       //  initialise();
     }
 
-    public REVIEW[] getReviews(int movieId) {
-        REVIEW[] reviews = databaseHandler.getReviews(movieId);
+    public REVIEWs[] getReviews(int movieId) {
+        REVIEWs[] reviews = databaseHandler.getReviews(movieId);
         for(int i=0; i< reviews.length; i++){
             int x=((int)(Math.random()*100))%5;
             reviews[i].userImage = sampleUserImage[x];

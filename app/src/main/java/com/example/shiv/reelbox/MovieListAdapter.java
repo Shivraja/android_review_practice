@@ -12,12 +12,12 @@ import android.widget.TextView;
 public class MovieListAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
-    MOVIE[] movies;
+    MOVIEs[] movies;
 
     ImageView backgroundImageView, iconImageView;
     TextView movieNameView, languageView, yearView;
 
-    public MovieListAdapter(MOVIE[] movies, Resources resources, Context context) {
+    public MovieListAdapter(MOVIEs[] movies, Resources resources, Context context) {
 
         this.context = context;
         this.movies = movies;

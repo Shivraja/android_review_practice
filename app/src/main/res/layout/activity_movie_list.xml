@@ -61,7 +61,7 @@
             android:id="@+id/cast2" />
        -->
     </RelativeLayout>
-    -->
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

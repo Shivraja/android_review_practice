@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 public class FavouriteActivity extends AppCompatActivity {
 
-    static MOVIE[] favouriteMovies = null;
+    static MOVIEs[] favouriteMovies = null;
     static FavouriteMovieListAdapter listAdapter;
     static MoviesDataRetriever moviesDataRetriever;
     ListView listView;

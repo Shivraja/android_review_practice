@@ -28,12 +28,6 @@ public class StartActivity extends AppCompatActivity {
 
         backgroundImage = (ImageView) findViewById(R.id.start_background_image);
         backgroundImage.setImageBitmap(CONSTANTS.BACKGROUND_IMAGE);
-        moviesDataRetriever.getTopPopularMovies("Tamil");
-        moviesDataRetriever.getTopRatedMovies("Tamil");
-        moviesDataRetriever.getRecentMovies("Tamil");
-        moviesDataRetriever.getPopularMovies("Tamil");
-        moviesDataRetriever.getRatedMovies("Tamil");
-        moviesDataRetriever.getRecentMovies("Tamil");
     }
 
     @Override
@@ -50,19 +44,37 @@ public class StartActivity extends AppCompatActivity {
         final Intent intent;
         Log.w("START","started");
         String username = sharedPreferences.getString("username", "NULL");
+
         if (username.matches("NULL")) {
             intent = new Intent(this, RegisterActivity.class);
         }else{
             intent = new Intent(this,SlidingPageActivity.class);
             CONSTANTS.USER_NAME = username;
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.w("THREAD","Thread Started");
+                moviesDataRetriever.getTopPopularMovies("Tamil");
+                moviesDataRetriever.getTopRatedMovies("Tamil");
+                moviesDataRetriever.getRecentMovies("Tamil");
+                moviesDataRetriever.getPopularMovies("Tamil");
+                moviesDataRetriever.getRatedMovies("Tamil");
+                moviesDataRetriever.getRecentMovies("Tamil");
+                moviesDataRetriever.optimiseCastImage();
+            }
+        }).start();
+
+        Log.w("THREAD", "After Thread");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(intent);
                 finish();
             }
-        },3000);
+        }, 3000);
+        Log.w("THREAD", "After Delay");
     }
 
     @Override
