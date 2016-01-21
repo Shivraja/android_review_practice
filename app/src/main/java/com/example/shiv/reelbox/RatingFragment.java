@@ -21,6 +21,7 @@ public class RatingFragment extends Fragment {
         moviesDataRetriever = new MoviesDataRetriever(getActivity(),getResources());
         View view = inflater.inflate(R.layout.rating_fragment,container,false);
         RatingBar ratingBar = (RatingBar)view.findViewById(R.id.user_movie_rate);
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {

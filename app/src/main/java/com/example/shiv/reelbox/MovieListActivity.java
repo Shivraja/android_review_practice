@@ -21,13 +21,15 @@ public class MovieListActivity extends AppCompatActivity {
 
     static int headId;
     static MOVIE[] movies;
-    static MOVIE[] tamilPopular = null, tamilRecent = null, tamilRated = null, others = null;
+    static MOVIE[] tamilPopular = null, tamilRecent = null, tamilRated = null, englishPopular = null, englishRated = null, englishRecent = null, hindiPopular=null, hindiRated = null, hindiRecent = null, others = null;
+
     MoviesDataRetriever moviesData;
     NotificationManager notificationManager;
     NotificationCompat.Builder notificationCompat;
     ImageView headView;
     TextView headName;
     String activityName = null;
+    int listType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MovieListActivity extends AppCompatActivity {
         moviesData = new MoviesDataRetriever(this, getResources());
         Intent intent = this.getIntent();
         activityName = intent.getStringExtra("Name");
+        listType = intent.getIntExtra("Type", 1);
         setTitle(activityName);
         setContentView(R.layout.activity_movie_list);
 
@@ -56,22 +59,52 @@ public class MovieListActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.list);
 
-        if (activityName.matches("Tamil Popular")) {
-            if (tamilPopular == null)
-                tamilPopular = moviesData.getPopularMovies("Tamil");
-            movies = tamilPopular;
-        } else if (activityName.matches("Tamil Rated")) {
-            if (tamilRated == null)
-                tamilRated = moviesData.getRatedMovies("Tamil");
-            movies = tamilRated;
-        } else if (activityName.matches("Tamil Recent")) {
-            if (tamilRecent == null)
-                tamilRecent = moviesData.getRecentMovies("Tamil");
-            movies = tamilRecent;
-        } else {
-            if (others == null)
-                others = moviesData.getAllMovies();
-            movies = others;
+        switch (listType) {
+            case CONSTANTS.TAMIL_POPULAR:
+                if (tamilPopular == null)
+                    tamilPopular = moviesData.getPopularMovies("Tamil");
+                movies = tamilPopular;
+                break;
+            case CONSTANTS.TAMIL_RATED:
+                if (tamilRated == null)
+                    tamilRated = moviesData.getRatedMovies("Tamil");
+                movies = tamilRated;
+                break;
+            case CONSTANTS.TAMIL_RECENT:
+                if (tamilRecent == null)
+                    tamilRecent = moviesData.getRecentMovies("Tamil");
+                movies = tamilRecent;
+                break;
+            case CONSTANTS.ENGLISH_POPULAR:
+                if (englishPopular == null)
+                    englishPopular = moviesData.getPopularMovies("English");
+                movies = englishPopular;
+                break;
+            case CONSTANTS.ENGLISH_RATED:
+                if (englishRated == null)
+                    englishRated = moviesData.getPopularMovies("English");
+                movies = englishRated;
+                break;
+            case CONSTANTS.ENGLISH_RECENT:
+                if (englishRecent == null)
+                    englishRecent = moviesData.getPopularMovies("English");
+                movies = englishRecent;
+                break;
+            case CONSTANTS.HINDI_POPULAR:
+                if (hindiPopular == null)
+                    hindiPopular = moviesData.getPopularMovies("Hindi");
+                movies = hindiPopular;
+                break;
+            case CONSTANTS.HINDI_RATED:
+                if (hindiRated == null)
+                    hindiRated = moviesData.getPopularMovies("Hindi");
+                movies = hindiRated;
+                break;
+            case CONSTANTS.HINDI_RECENT:
+                if (hindiRecent == null)
+                    hindiRecent = moviesData.getPopularMovies("Hindi");
+                movies = hindiRecent;
+                break;
         }
 
         MovieListAdapter movieListAdapter = new MovieListAdapter(movies, getResources(), this);
@@ -88,7 +121,7 @@ public class MovieListActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), i + " ", Toast.LENGTH_LONG).show();
                 */
-                startMoviesActivity(movies[i + 1].movieId);
+                startMoviesActivity(movies[i].movieId);
             }
         });
 

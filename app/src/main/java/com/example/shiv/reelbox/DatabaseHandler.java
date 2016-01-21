@@ -17,7 +17,7 @@ import java.util.List;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     static String DATABASE_NAME = "movies.db";
-    static int DATABASE_VERSION = 12;
+    static int DATABASE_VERSION = 26;
     static String MOVIE_TABLE = "movies";
     static String CASTS_TABLE = "casts";
     static String CELEBRITIES_TABLE = "celebrities";
@@ -27,6 +27,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     static String REVIEW_TABLE = "reviews";
     static String USER_TABLE = "user";
     static String REVIEW_LIKE_TABLE = "reviewlike";
+    static String RECOMMENDATION_TABLE = "recommendations";
+
     Resources resources;
 
     public DatabaseHandler(Context context, Resources resources) {
@@ -35,10 +37,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void insertValues(SQLiteDatabase sqLiteDatabase) {
+        Log.w("DATABASE","Initialization Begins");
         initMovies(sqLiteDatabase);
         initReviews(sqLiteDatabase);
         initUsers(sqLiteDatabase);
         initCelebrities(sqLiteDatabase);
+        initRecommendations(sqLiteDatabase);
+        Log.w("DATABASE", "Initialization Ends");
     }
 
     public void initMovies(SQLiteDatabase sqLiteDatabase) {
@@ -60,6 +65,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         int headImage[] = {R.drawable.yennaiarindhal_head, R.drawable.anegan_head, R.drawable.darling_head, R.drawable.jilla_head,
                 R.drawable.head_4, R.drawable.jannalooram_head, R.drawable.naveenasaraswathisabatham_head, R.drawable.naiyaandi_head, R.drawable.samar_head, R.drawable.vanayuddham_head, R.drawable.chennaiyilorunaal_head, R.drawable.vanakkamchennai_head, R.drawable.kadal_head, R.drawable.udhayamnh4_head, R.drawable.arambam_head, R.drawable.rajarani_head, R.drawable.vishwaroopam_head, R.drawable.i_head};
+
+        int englishIconImage[] = {R.drawable.eicon_1,R.drawable.eicon_2,R.drawable.eicon_3,R.drawable.eicon_4,R.drawable.eicon_5,R.drawable.eicon_6,R.drawable.eicon_7,R.drawable.eicon_8,R.drawable.eicon_9,R.drawable.eicon_10,R.drawable.eicon_11};
+
+        int englishHeadImage[] ={R.drawable.ehead_1,R.drawable.ehead_2,R.drawable.ehead_3,R.drawable.ehead_4,R.drawable.ehead_5,R.drawable.ehead_6,R.drawable.ehead_7,R.drawable.ehead_8,R.drawable.ehead_9,R.drawable.ehead_10,R.drawable.ehead_11};
+
+        String englishMovieName[] = {"Gamer","Sweet Punch","X-Men", "Hobbit", "The Bourne Legacy", "The Dark Knignt Arises", "Seventh Son", "Prince of Persia", "A Common Man", "Fast and Furious 7","Boys"};
 
         for (int i = 0; i < 17; i++) {
             MOVIE temp = new MOVIE();
@@ -83,31 +94,90 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             insertIntoMovieTable(sqLiteDatabase, temp.movieId, temp.movieName, temp.year, "10-10-2014", temp.language, temp.description, 0, temp.rating, temp.iconImageId + "", temp.headImageId + "");
         }
+
+        for (int i = 0; i < 11; i++) {
+            MOVIE temp = new MOVIE();
+            temp.movieId = 100+i;
+            temp.movieName = englishMovieName[i];
+            temp.rating = ((int) (Math.random() * 10)) % 5 + 1;
+            temp.year = 2000 + (int) (Math.random() * 10) % 15;
+            temp.language = "English";
+            temp.casts = getCasts(sqLiteDatabase, 1);  //1 for sample
+            temp.links = links;
+            temp.iconImageId = englishIconImage[i];
+            temp.headImageId = englishHeadImage[i];
+            temp.description = "This is the Upcoming movie Released by Star Network and its associatives. This film is contrubuted by Vijay Surya and his fellows. The film is panned to release for Pongal \n\nDirector :  JamesCameroon\nMusic    :  Anirudh";
+
+            for (int j = 0; j < 5; j++) {
+                insertIntoCastsTable(sqLiteDatabase, temp.movieId, "None", ((j + i) % 7) + 1);
+            }
+
+            for (int j = 0; j < temp.links.size(); j++) {
+                insertIntoLinksTable(sqLiteDatabase, temp.movieId, "Trailor", temp.links.get(j));
+            }
+
+            insertIntoMovieTable(sqLiteDatabase, temp.movieId, temp.movieName, temp.year, "10-10-2014", temp.language, temp.description, 0, temp.rating, temp.iconImageId + "", temp.headImageId + "");
+        }
+
     }
 
     public void initReviews(SQLiteDatabase sqLiteDatabase) {
         int sampleUserImage[] = {R.drawable.karthi, R.drawable.surya, R.drawable.trisha, R.drawable.rajini, R.drawable.rajini_2, R.drawable.kajal};
-        String sampleUserId[] = {"Karthi", "Surya", "Trisha", "Rajini", "Bhaasha", "Kaajal"};
+        String username[] ={"Rajini","Surya","Karthi","SuperStar","Singam","Kajal","Priya"};
+
         String sampleReviews[] = {"The MOVIE is nice, but the climax is okay", "Thai herbs have increasingly gained public attention.Recently, there are a number of Thai herb websites. Each website", "Has similar information but quite different details. For example,some webpages do not provide information indicating which part", "of Thai herb can treat the specified symptom. In order to collect more complete Thai herb information, we have developed", "information extraction process to extract Thai herb information from multiple websites.", "Return the class name of this object to be used for accessibility purposes. Subclasses should only override this if they are implementing something that should be seen as a completely new class of view when used by accessibility, unrelated to the class it is deriving from"};
 
         int i;
-        for (i = 0; i < 200; i++) {
+        for (i = 0; i < 50; i++) {
             REVIEW temp = new REVIEW();
             temp.movieId = (i % 17 + 1);
             temp.likes = (int) (Math.random() * 100);
             temp.unlikes = (int) (Math.random() * 100);
             int x = ((int) (Math.random() * 100)) % 6;
             temp.userImage = sampleUserImage[x];
-            temp.userId = sampleUserId[x];
+            temp.userId = username[x];
             temp.review = sampleReviews[x];
             temp.time = i + "-10-2015";
             insertIntoReviewTable(sqLiteDatabase, i + 1, temp.userId, (i % 13) + 1, temp.review, temp.time, temp.likes, temp.unlikes);
         }
-
     }
 
     public void initUsers(SQLiteDatabase sqLiteDatabase) {
+        String username[] ={"Rajini","Surya","Karthi","SuperStar","Singam","Kajal","Priya","Raja"};
+        int userImage[] = {R.drawable.rajini, R.drawable.surya, R.drawable.karthi, R.drawable.rajini_2, R.drawable.surya_2, R.drawable.kajal, R.drawable.unknown, R.drawable.ajith};
 
+        for(int i=0; i<8; i++){
+            insertIntoUserTable(sqLiteDatabase, username[i], username[i], username[i], username[i] + "@gmail.com", "9788925328", userImage[i] + "");
+        }
+
+    }
+
+    public void initRecommendations(SQLiteDatabase sqLiteDatabase){
+
+        String username[] ={"Rajini","Surya","Karthi","SuperStar","Singam","Kajal","Priya","Raja"};
+        for(int i=0; i<20;i++){
+            int x = ((int) (Math.random() * 100)) % 8;
+            insertIntoRecommendationTable(sqLiteDatabase, i, username[x], username[(x+i)%8]);
+        }
+    }
+
+    public void insertIntoRecommendationTable(SQLiteDatabase sqLiteDatabase, int movieId, String fromUser, String toUser){
+        ContentValues values = new ContentValues();
+        values.put("movieId", movieId);
+        values.put("fromuser", fromUser);
+        values.put("touser", toUser);
+        sqLiteDatabase.insert(RECOMMENDATION_TABLE, null, values);
+    }
+
+    public void insertIntoUserTable(SQLiteDatabase sqLiteDatabase,String username, String name, String password, String emailId, String phone, String imageURL){
+            ContentValues values = new ContentValues();
+            values.put("username", username);
+        values.put("name", name);
+        values.put("password", password);
+        values.put("emailId", emailId);
+        values.put("phone", phone);
+        values.put("imageURL", imageURL);
+        sqLiteDatabase.insert(USER_TABLE,null,values);
     }
 
     public void initCelebrities(SQLiteDatabase sqLiteDatabase) {
@@ -388,6 +458,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return movies;
     }
 
+    public void addMovieReview(int movieId, String username, String review) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        insertIntoReviewTable(sqLiteDatabase, 21, username, movieId, review, "10-10-2015", 0, 0);
+        sqLiteDatabase.close();
+    }
+
+    public void updateMovieReview(int movieId, String username, String review) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String query = "UPDATE " + REVIEW_TABLE + " SET review='" + review + "' WHERE movieId=" + movieId + " and username='" + username + "'" + ";";
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
+    public void removeMovieReview(int movieId, String username) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String query = "DELETE * FROM " + REVIEW_TABLE + " WHERE movieId=" + movieId + " and username='" + username + "'" + ";";
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
     public MOVIE[] getRecentMovies(String language) {
         Log.w("DATABASE", "getRecentMovies");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -488,19 +578,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public REVIEW getReview(int movieId, String username) {
         Log.w("DATABASE", "getReviews");
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + REVIEW_TABLE + " WHERE movieId="+ movieId +" and username='"+username+"' " +";";
+        String query = "SELECT * FROM " + REVIEW_TABLE + " WHERE movieId=" + movieId + " and username='" + username + "' " + ";";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         REVIEW review = null;
-        if(cursor.getCount() < 1)
+        if (cursor.getCount() < 1)
             return null;
         if (cursor.moveToFirst()) {
-                review = new REVIEW();
-                review.reviewId = cursor.getInt(0);
-                review.userId = cursor.getString(1);
-                review.movieId = cursor.getInt(2);
-                review.review = cursor.getString(3);
-                review.likes = cursor.getInt(4);
-                review.unlikes = cursor.getInt(5);
+            review = new REVIEW();
+            review.reviewId = cursor.getInt(0);
+            review.userId = cursor.getString(1);
+            review.movieId = cursor.getInt(2);
+            review.review = cursor.getString(3);
+            review.likes = cursor.getInt(4);
+            review.unlikes = cursor.getInt(5);
         }
         sqLiteDatabase.close();
         return review;
@@ -613,6 +703,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    public void recommendMovie(int movieId, String fromUser, String toUser){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        insertIntoRecommendationTable(sqLiteDatabase,movieId,fromUser,toUser);
+        sqLiteDatabase.close();
+    }
+
+    public RECOMMEND[] getRecommendations(String username){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT movieId, fromuser FROM "+ RECOMMENDATION_TABLE +" WHERE touser='"+ username +"'"+";";
+        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
+        RECOMMEND[] recommends = new RECOMMEND[cursor.getCount()];
+        int index = 0;
+        if(cursor.moveToFirst()){
+            do{
+                recommends[index] = new RECOMMEND();
+                recommends[index].movieId = cursor.getInt(0);
+                recommends[index].username = cursor.getString(1);
+                index++;
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return recommends;
+    }
+
+    public void clearRecommendations(String username){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String query = "DELETE FROM "+RECOMMENDATION_TABLE+" WHERE touser='"+username+"';";
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + MOVIE_TABLE + " ( " + "movieId int," + "movieName varchar," + "year int," + "date varchar," + "language varchar," + "viewcount int," + "rate float," + "iconImageURL varchar," + "headImageURL varchar," + "description varchar(1000)" + ")"); // make movie id as auto increment
@@ -624,6 +746,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + FOLLOW_TABLE + " ( " + "username varchar," + "movieId int" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + REVIEW_TABLE + " ( " + "reviewId int," + "username varchar," + "movieId int," + "REVIEW varchar," + " time varchar," + "likes int," + "unlikes int" + ")");
         sqLiteDatabase.execSQL("CREATE TABLE " + REVIEW_LIKE_TABLE + " ( " + "reviewId int," + "username varchar," + "movieId int," + " status varchar" + ")");
+        sqLiteDatabase.execSQL("CREATE TABLE " + RECOMMENDATION_TABLE + " ( " + "movieId int," + "fromuser varchar," + "touser varchar" +  ")");
+
         Log.w("DATABASE", "Tables created");
         insertValues(sqLiteDatabase);
         Log.w("DATABASE", "Values Inserted");
@@ -640,8 +764,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FOLLOW_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + REVIEW_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + REVIEW_LIKE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RECOMMENDATION_TABLE);
         onCreate(sqLiteDatabase);
     }
 }
-
- /* */

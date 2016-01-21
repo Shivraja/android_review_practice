@@ -1,16 +1,35 @@
 package com.example.shiv.reelbox;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 public class RecommendationActivity extends AppCompatActivity {
 
+    ListView recommendationList;
+    MoviesDataRetriever moviesDataRetriever;
+    static RECOMMEND[] recommends;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendation);
+        moviesDataRetriever = new MoviesDataRetriever(this,getResources());
+        recommendationList = (ListView)findViewById(R.id.recommendation_list);
+        recommends = moviesDataRetriever.getRecommendations();
+        Log.w("RECOMMEND", recommends.length + " ");
+        recommendationList.setAdapter(new RecommendationListAdapter(this, recommends));
+        recommendationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startMoviesActivity(recommends[i].movie.movieId);
+            }
+        });
     }
 
     @Override
@@ -28,10 +47,24 @@ public class RecommendationActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_clear) {
+            clearRecommendations();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clearRecommendations(){
+        moviesDataRetriever.clearRecommendations();
+        finish();
+        startActivity(getIntent());
+    }
+
+    public void startMoviesActivity(int movieId) {
+        Intent moviesActivity = new Intent(this, MovieActivity.class);
+        moviesActivity.putExtra("movieId", movieId);
+        moviesDataRetriever.incrementViewCount(movieId);
+        startActivity(moviesActivity);
     }
 }

@@ -31,12 +31,12 @@ public class MovieListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return movies.length - 1;
+        return movies.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return movies[i + 1];
+        return movies[i];
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MovieListAdapter extends BaseAdapter {
         movieNameView = (TextView) view.findViewById(R.id.movie_name);
         languageView = (TextView) view.findViewById(R.id.movie_language);
         yearView = (TextView) view.findViewById(R.id.movie_year);
-        i++;
+
         backgroundImageView.setImageBitmap(movies[i].headImageBitmap);
         iconImageView.setImageBitmap(movies[i].iconImageBitmap);
         movieNameView.setText(movies[i].movieName);

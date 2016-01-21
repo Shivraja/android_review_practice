@@ -41,7 +41,7 @@ public class SlidingPageActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TamilSlidingFragment(), "Tamil");
-        adapter.addFragment(new TamilSlidingFragment(), "English");
+        adapter.addFragment(new EnglishSlidingFragment(), "English");
         adapter.addFragment(new TamilSlidingFragment(), "Hindi");
         viewPager.setAdapter(adapter);
     }

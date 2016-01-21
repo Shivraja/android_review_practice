@@ -18,14 +18,11 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
-        getSupportActionBar().hide();
-        moviesDataRetriever = new MoviesDataRetriever(this,getResources());
-
         if (CONSTANTS.BACKGROUND_IMAGE == null)
             CONSTANTS.BACKGROUND_IMAGE = ImageOptimizer.getCorrespondingBitmap(getResources(), R.drawable.skin_full_page_bgimage_a, 200, 500);
-
+        setContentView(R.layout.activity_start);
+        getSupportActionBar().hide();
+        moviesDataRetriever = new MoviesDataRetriever(this,getResources());
         backgroundImage = (ImageView) findViewById(R.id.start_background_image);
         backgroundImage.setImageBitmap(CONSTANTS.BACKGROUND_IMAGE);
     }
@@ -55,14 +52,22 @@ public class StartActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.w("THREAD","Thread Started");
+                Log.w("THREAD", "Thread Started");
                 moviesDataRetriever.getTopPopularMovies("Tamil");
                 moviesDataRetriever.getTopRatedMovies("Tamil");
-                moviesDataRetriever.getRecentMovies("Tamil");
+                moviesDataRetriever.getTopRecentMovies("Tamil");
                 moviesDataRetriever.getPopularMovies("Tamil");
                 moviesDataRetriever.getRatedMovies("Tamil");
                 moviesDataRetriever.getRecentMovies("Tamil");
+
+                moviesDataRetriever.getTopPopularMovies("English");
+                moviesDataRetriever.getTopRatedMovies("English");
+                moviesDataRetriever.getTopRecentMovies("English");
+                moviesDataRetriever.getPopularMovies("English");
+                moviesDataRetriever.getRatedMovies("English");
+                moviesDataRetriever.getRecentMovies("English");
                 moviesDataRetriever.optimiseCastImage();
+
             }
         }).start();
 

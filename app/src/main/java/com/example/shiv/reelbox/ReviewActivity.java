@@ -15,6 +15,7 @@ public class ReviewActivity extends AppCompatActivity {
     ImageView headImage;
     ImageView backgroundImage;
     int movieId;
+    ReviewDataRetriever reviewDataRetriever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,20 +24,20 @@ public class ReviewActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
         Intent intent = this.getIntent();
-        int movieId = intent.getIntExtra("movieId",1);
-        headImage = (ImageView)findViewById(R.id.review_head_Image);
-        backgroundImage = (ImageView)findViewById(R.id.review_background_image);
-        reviewList = (ListView)findViewById(R.id.review_review_list_view);
+        int movieId = intent.getIntExtra("movieId", 1);
+        headImage = (ImageView) findViewById(R.id.review_head_Image);
+        backgroundImage = (ImageView) findViewById(R.id.review_background_image);
+        reviewList = (ListView) findViewById(R.id.review_review_list_view);
 
-        ReviewDataRetriever reviewDataRetriever = new ReviewDataRetriever(this,getResources());
+        reviewDataRetriever = new ReviewDataRetriever(this, getResources());
         REVIEW reviews[] = reviewDataRetriever.getReviews(movieId);
-        reviewListAdapter = new ReviewListAdapter(reviews, this);
+        reviewListAdapter = new ReviewListAdapter(reviews, reviewDataRetriever, this);
         reviewList.setAdapter(reviewListAdapter);
         if (CONSTANTS.BACKGROUND_IMAGE == null)
             CONSTANTS.BACKGROUND_IMAGE = ImageOptimizer.getCorrespondingBitmap(getResources(), R.drawable.skin_full_page_bgimage_a, 200, 500);
         backgroundImage.setImageBitmap(CONSTANTS.BACKGROUND_IMAGE);
 
-      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
      /*   reviewList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -61,6 +62,7 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
         */
+
         Intent currentIntent = this.getIntent();
         movieId = currentIntent.getIntExtra("movieId", 1);
         MOVIE MOVIE = new MoviesDataRetriever(this, getResources()).getMovie(movieId);

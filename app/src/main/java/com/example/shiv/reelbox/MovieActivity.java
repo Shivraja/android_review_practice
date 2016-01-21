@@ -43,6 +43,7 @@ public class MovieActivity extends AppCompatActivity {
     Button postButton,cancelButton;
     ImageView reviewEditImage, reviewDeleteImage;
     EditText userReview;
+    static boolean fragmentsAdded = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class MovieActivity extends AppCompatActivity {
 
         if (!moviesDataRetriever.isRated(movieId, CONSTANTS.USER_NAME)) {
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.rating_fragment, new RatingFragment());
+            fragmentTransaction.replace(R.id.rating_fragment, new RatingFragment());
             fragmentTransaction.commit();
         }
 
@@ -90,7 +91,8 @@ public class MovieActivity extends AppCompatActivity {
         description.setText(movie.description);
         casts = movie.casts;
 
-        int length = casts.length;
+        if(!fragmentsAdded) {
+            int length = casts.length;
             FragmentTransaction castTransaction = fragmentManager.beginTransaction();
             for (int i = 0; i < length; i++) {
                 CastsFragment castsFragment = new CastsFragment();
@@ -100,6 +102,8 @@ public class MovieActivity extends AppCompatActivity {
                 castTransaction.add(R.id.movie_cast_fragment, castsFragment, movieId + "" + i);
             }
             castTransaction.commit();
+            fragmentsAdded = true;
+        }
 
         setTitle(movie.movieName);
         if (moviesDataRetriever.isFollowed(movieId, CONSTANTS.USER_NAME)) {
@@ -121,6 +125,7 @@ public class MovieActivity extends AppCompatActivity {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
             links.addView(textView);
         }
+
         showReviews = (Button) findViewById(R.id.showReviews);
         showReviews.setOnClickListener(new View.OnClickListener() {
             @Override

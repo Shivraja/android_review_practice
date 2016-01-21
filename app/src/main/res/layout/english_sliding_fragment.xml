@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#101010"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,67 +23,79 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp" />
 
-                <TextView
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <ImageView
                     android:alpha=".8"
-                    android:background="#000000"
-                    android:padding="3dp"
-                    android:text="Popular"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp" />
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/red_paint_unmodified" />
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="horizontal"
-                    android:id="@+id/english_popular_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp">
-                </LinearLayout>
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:padding="5dp"
+                    android:text="POPULAR"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp">
 
                 <ViewFlipper
                     android:id="@+id/movie_flipper_english_rated"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"/>
+                    android:layout_height="150dp" />
+
+                <ImageView
+                    android:alpha=".8"
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/red_paint_unmodified" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha=".8"
-                    android:background="#000000"
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
                     android:padding="3dp"
-                    android:text="Top Rated"
+                    android:text="TOP RATED"
                     android:textColor="#ffffff"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp">
 
                 <ViewFlipper
                     android:id="@+id/movie_flipper_english_recent"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"/>
+                    android:layout_height="150dp" />
+
+                <ImageView
+                    android:alpha=".8"
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/red_paint_unmodified" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha=".8"
-                    android:background="#000000"
-                    android:padding="3dp"
-                    android:text="Recent"
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:padding="5dp"
+                    android:text="RECENT"
                     android:textColor="#ffffff"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -19,9 +19,16 @@ public class TamilSlidingFragment extends Fragment {
     static boolean isBitmapCalculated = false;
     MoviesDataRetriever moviesDataRetriever;
     ViewFlipper tamil_popular, tamil_recent, tamil_rated;
-    ImageView indicatorImageView[] = new ImageView[5];
+    ImageView popularIndicatorImageView[] = new ImageView[5];
+    ImageView ratedIndicatorImageView[] = new ImageView[5];
+    ImageView recentIndicatorImageView[] = new ImageView[5];
     LinearLayout tamil_popular_indicator;
-    int headImages[] = {R.drawable.yennaiarindhal_head, R.drawable.anegan_head, R.drawable.darling_head, R.drawable.jilla_head, R.drawable.head_4, R.drawable.jannalooram_head, R.drawable.naveenasaraswathisabatham_head, R.drawable.naiyaandi_head, R.drawable.samar_head, R.drawable.vanayuddham_head, R.drawable.chennaiyilorunaal_head, R.drawable.vanakkamchennai_head, R.drawable.kadal_head, R.drawable.udhayamnh4_head, R.drawable.arambam_head, R.drawable.rajarani_head, R.drawable.vishwaroopam_head, R.drawable.i_head};
+    LinearLayout tamil_rated_indicator;
+    LinearLayout tamil_recent_indicator;
+
+    static int current_popular_index = 0;
+    static int current_rated_index = 0;
+    static int current_recent_index = 0;
 
     public void calculateBitmap() {
         moviesDataRetriever = new MoviesDataRetriever(getContext(), getResources());
@@ -58,16 +65,69 @@ public class TamilSlidingFragment extends Fragment {
         tamil_rated = (ViewFlipper) view.findViewById(R.id.movie_flipper_tamil_rated);
         tamil_recent = (ViewFlipper) view.findViewById(R.id.movie_flipper_tamil_recent);
         tamil_popular_indicator = (LinearLayout) view.findViewById(R.id.tamil_popular_indicator);
+        tamil_rated_indicator = (LinearLayout) view.findViewById(R.id.tamil_rated_indicator);
+        tamil_recent_indicator = (LinearLayout) view.findViewById(R.id.tamil_recent_indicator);
 
         if (!isBitmapCalculated) {
             calculateBitmap();
         }
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(8,5,5,5);
+
         for (int i = 0; i < 5; i++) {
-            indicatorImageView[i] = new ImageView(getContext());
-            indicatorImageView[i].setImageResource(android.R.drawable.radiobutton_off_background);
-            tamil_popular_indicator.addView(indicatorImageView[i]);
+            popularIndicatorImageView[i] = new ImageView(getContext());
+            popularIndicatorImageView[i].setLayoutParams(params);
+            tamil_popular_indicator.addView(popularIndicatorImageView[i]);
         }
+
+        for (int i = 0; i < 5; i++) {
+            ratedIndicatorImageView[i] = new ImageView(getContext());
+            ratedIndicatorImageView[i].setLayoutParams(params);
+            tamil_rated_indicator.addView(ratedIndicatorImageView[i]);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            recentIndicatorImageView[i] = new ImageView(getContext());
+            recentIndicatorImageView[i].setLayoutParams(params);
+            tamil_recent_indicator.addView(recentIndicatorImageView[i]);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            popularIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+            ratedIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+            recentIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+        }
+
+        tamil_popular.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                popularIndicatorImageView[current_popular_index].setImageResource(R.drawable.indicator_off);
+                current_popular_index++;
+                current_popular_index %= 5;
+                popularIndicatorImageView[current_popular_index].setImageResource(R.drawable.indicator_on);
+            }
+        });
+
+        tamil_rated.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                ratedIndicatorImageView[current_rated_index].setImageResource(R.drawable.indicator_off);
+                current_rated_index++;
+                current_rated_index %= 5;
+                ratedIndicatorImageView[current_rated_index].setImageResource(R.drawable.indicator_on);
+            }
+        });
+
+        tamil_recent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                recentIndicatorImageView[current_recent_index].setImageResource(R.drawable.indicator_off);
+                current_recent_index++;
+                current_recent_index %= 5;
+                recentIndicatorImageView[current_recent_index].setImageResource(R.drawable.indicator_on);
+            }
+        });
 
 
         tamil_popular.setOnClickListener(new View.OnClickListener() {
@@ -132,12 +192,39 @@ public class TamilSlidingFragment extends Fragment {
         tamil_popular.startFlipping();
 
         tamil_rated.setAutoStart(true);
-        tamil_rated.setFlipInterval(2800);
+        tamil_rated.setFlipInterval(2900);
         tamil_rated.startFlipping();
 
         tamil_recent.setAutoStart(true);
-        tamil_recent.setFlipInterval(3000);
+        tamil_recent.setFlipInterval(2700);
         tamil_recent.startFlipping();
+
+        restartIndicators();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        for (int i = 0; i < 5; i++) {
+            popularIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+            ratedIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+            recentIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+        }
+    }
+
+    public void restartIndicators() {
+        for (int i = 0; i < 5; i++) {
+            popularIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+            ratedIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+            recentIndicatorImageView[i].setImageResource(R.drawable.indicator_off);
+        }
+
+        popularIndicatorImageView[0].setImageResource(R.drawable.indicator_on);
+        ratedIndicatorImageView[0].setImageResource(R.drawable.indicator_on);
+        recentIndicatorImageView[0].setImageResource(R.drawable.indicator_on);
+        current_popular_index = 0;
+        current_rated_index = 0;
+        current_recent_index = 0;
     }
 
     @Override
